@@ -38,6 +38,11 @@
         <div class="metric"><div class="m-num">{{ '%.1f'|format(s.average_players_per_match) }}</div><div class="m-lbl">hráčov / zápas</div></div>
     </div>
 
+    {# ---------- head-to-head tension ---------- #}
+    {% set duel_name, gw, ow, dr = s.top_scoring_team %}
+    {% set played = s.total_matches_played[0] %}
+    {% include '_h2h.html' %}
+
     <hr class="rule">
 
     {# ---------- standings ---------- #}

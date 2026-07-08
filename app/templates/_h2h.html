@@ -1,0 +1,20 @@
+{# Head-to-head tension card. Expects: gw, ow, dr (win/draw counts), played. #}
+{% set total = (gw + ow + dr) if (gw + ow + dr) > 0 else 1 %}
+<div class="card h2h">
+    <div class="card-lbl">Zelení vs Oranžoví — celá sezóna</div>
+    <div class="h2h-nums">
+        <div class="side"><span class="big g mono">{{ gw }}</span><span class="cap">Zelení</span></div>
+        <div class="side c"><span class="big mid mono">{{ dr }}</span><span class="cap">{{ 'remíza' if dr == 1 else 'remíz' }}</span></div>
+        <div class="side r"><span class="big o mono">{{ ow }}</span><span class="cap">Oranžoví</span></div>
+    </div>
+    <div class="tension">
+        <span class="g" style="width: {{ 100 * gw / total }}%"></span>
+        <span class="d" style="width: {{ 100 * dr / total }}%"></span>
+        <span class="o" style="width: {{ 100 * ow / total }}%"></span>
+    </div>
+    <div class="h2h-legend">
+        <span>{{ (100 * gw / total) | round | int }} % výhier</span>
+        <span>{{ played }} zápasov</span>
+        <span>{{ (100 * ow / total) | round | int }} % výhier</span>
+    </div>
+</div>

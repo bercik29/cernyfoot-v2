@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Nastavenie hesla — Fodbal Černyševského{% endblock %}
+
+{% block content %}
+<section class="auth-card">
+    <h1>Ahoj, {{ player.nickname }}!</h1>
+    <p class="tagline">Tvoj účet ešte nemá heslo. Nastav si ho a môžeš hrať.</p>
+
+    <form method="POST" class="stack-form" novalidate>
+        {{ form.hidden_tag() }}
+
+        <label for="password">{{ form.password.label.text }}</label>
+        {{ form.password(id="password", autocomplete="new-password", autofocus=true) }}
+        {% for err in form.password.errors %}<p class="field-error">{{ err }}</p>{% endfor %}
+
+        <label for="confirm">{{ form.confirm.label.text }}</label>
+        {{ form.confirm(id="confirm", autocomplete="new-password") }}
+        {% for err in form.confirm.errors %}<p class="field-error">{{ err }}</p>{% endfor %}
+
+        <button type="submit" class="btn btn-primary">Nastaviť heslo a prihlásiť</button>
+    </form>
+
+    <p class="auth-hint">Nie si {{ player.nickname }}? <a href="{{ url_for('auth.login') }}">Späť na prihlásenie</a>.</p>
+</section>
+{% endblock %}

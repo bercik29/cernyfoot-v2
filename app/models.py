@@ -71,6 +71,12 @@ class Player(UserMixin, db.Model):
     def is_claimed(self) -> bool:
         return self.password_hash is not None
 
+    @property
+    def is_active(self) -> bool:
+        """Flask-Login hook: guest players are records, not accounts — they can
+        never hold a session."""
+        return not self.is_guest
+
     def set_password(self, raw: str) -> None:
         self.password_hash = _ph.hash(raw)
 

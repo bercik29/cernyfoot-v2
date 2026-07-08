@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}429 — Priveľa pokusov{% endblock %}
+{% block content %}
+<section class="hero">
+    <h1>429</h1>
+    <p class="tagline">Priveľa pokusov o prihlásenie. Chvíľu počkaj a skús znova.</p>
+    <p><a href="{{ url_for('auth.login') }}">Späť na prihlásenie</a></p>
+</section>
+{% endblock %}

@@ -36,3 +36,52 @@ body {
 }
 .footer { text-align: center; padding: 1rem; color: #8a938f; font-size: .85rem; }
 a { color: var(--green); }
+
+/* Top bar */
+.topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: .6rem 1rem; background: #fff; border-bottom: 1px solid #e3e7e5;
+}
+.brand { font-weight: 700; color: var(--ink); text-decoration: none; }
+.topnav { display: flex; align-items: center; gap: .75rem; }
+.whoami { color: #5a6560; font-size: .9rem; }
+.badge {
+    font-size: .7rem; padding: .1rem .4rem; border-radius: .5rem;
+    background: var(--orange); color: #fff; vertical-align: middle;
+}
+.inline-form { display: inline; margin: 0; }
+
+/* Buttons */
+.btn {
+    display: inline-block; padding: .5rem 1rem; border-radius: .6rem;
+    border: 1px solid transparent; cursor: pointer; font-size: .95rem;
+    text-decoration: none;
+}
+.btn-primary { background: var(--green); color: #fff; }
+.btn-primary:hover { filter: brightness(1.06); }
+.btn-ghost { background: transparent; border-color: #cfd6d2; color: var(--ink); }
+.btn-ghost:hover { background: #eef1ef; }
+
+/* Flash messages */
+.flashes { max-width: 32rem; margin: 1rem auto 0; padding: 0 1rem; }
+.flash { padding: .6rem 1rem; border-radius: .6rem; margin-bottom: .5rem; font-size: .95rem; }
+.flash-success { background: #e2f3e8; color: #1e6b3c; }
+.flash-info { background: #e8eef7; color: #2c4a76; }
+.flash-error { background: #fbe7e2; color: #93372a; }
+.flash-warning { background: #fdf3dc; color: #8a6413; }
+
+/* Auth card + forms */
+.auth-card {
+    background: #fff; border: 1px solid #e3e7e5; border-radius: 1rem;
+    padding: 2rem; max-width: 24rem; width: 100%; text-align: center;
+}
+.stack-form { display: flex; flex-direction: column; gap: .5rem; text-align: left; }
+.stack-form label { font-size: .85rem; color: #5a6560; margin-top: .5rem; }
+.stack-form input {
+    padding: .6rem .8rem; border: 1px solid #cfd6d2; border-radius: .6rem;
+    font-size: 1rem; width: 100%;
+}
+.stack-form input:focus { outline: 2px solid var(--green); border-color: var(--green); }
+.stack-form .btn { margin-top: 1rem; }
+.field-error { color: #93372a; font-size: .85rem; margin: .1rem 0 0; }
+.auth-hint { color: #8a938f; font-size: .85rem; margin-top: 1.25rem; }

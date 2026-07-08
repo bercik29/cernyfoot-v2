@@ -8,7 +8,7 @@ from sqlalchemy import event
 from sqlalchemy.engine import Engine
 
 from .config import CONFIG_MAP
-from .extensions import csrf, db, login_manager, migrate
+from .extensions import csrf, db, limiter, login_manager, migrate
 
 
 @event.listens_for(Engine, "connect")
@@ -41,18 +41,29 @@ def create_app(config_name: str | None = None) -> Flask:
     login_manager.login_view = "auth.login"
     login_manager.login_message = "Prihláste sa, prosím."
     csrf.init_app(app)
+    limiter.init_app(app)
 
     # Register models with the mapper (side-effect import).
     from . import models  # noqa: F401
 
     # Blueprints
     from .main import bp as main_bp
+    from .auth import bp as auth_bp
     app.register_blueprint(main_bp)
+    app.register_blueprint(auth_bp)
 
     # Minimal error pages (styled properly in the frontend phase).
+    @app.errorhandler(403)
+    def forbidden(e):
+        return render_template("errors/403.html"), 403
+
     @app.errorhandler(404)
     def not_found(e):
         return render_template("errors/404.html"), 404
+
+    @app.errorhandler(429)
+    def too_many_requests(e):
+        return render_template("errors/429.html"), 429
 
     @app.errorhandler(500)
     def server_error(e):

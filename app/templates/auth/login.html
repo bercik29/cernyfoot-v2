@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Prihlásenie — Fodbal Černyševského{% endblock %}
+
+{% block content %}
+<section class="auth-card">
+    <h1>Prihlásenie</h1>
+    <p class="tagline">prihlasovačka pre zeleno-oranžových</p>
+
+    <form method="POST" class="stack-form" novalidate>
+        {{ form.hidden_tag() }}
+
+        <label for="nickname">{{ form.nickname.label.text }}</label>
+        {{ form.nickname(id="nickname", autocomplete="username", autofocus=true) }}
+        {% for err in form.nickname.errors %}<p class="field-error">{{ err }}</p>{% endfor %}
+
+        <label for="password">{{ form.password.label.text }}</label>
+        {{ form.password(id="password", autocomplete="current-password") }}
+        {% for err in form.password.errors %}<p class="field-error">{{ err }}</p>{% endfor %}
+
+        <button type="submit" class="btn btn-primary">Prihlásiť</button>
+    </form>
+
+    <p class="auth-hint">
+        Prvýkrát tu po novom? Zadaj svoju prezývku a ľubovoľné heslo —
+        presmerujeme ťa na nastavenie hesla.
+    </p>
+</section>
+{% endblock %}

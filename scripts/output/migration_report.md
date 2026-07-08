@@ -1,7 +1,7 @@
 # CSV → DB Migration — Reconciliation Report
 
 - Source: `/Users/berco/Analysis/futpage/cernyfoot/static`
-- Run at: 2026-07-08T09:26:59
+- Run at: 2026-07-08T09:34:09
 
 ## Counts
 

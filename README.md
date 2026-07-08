@@ -51,7 +51,8 @@ cernyfoot-v2/
 - [x] **Phase 0 — Foundation**: app factory, config, schema, migrations, tests
 - [x] **Phase 1 — CSV→DB migration**: `scripts/migrate_csv.py` (D1/D2 applied, reconciliation
       report in `scripts/output/`), golden master via `scripts/capture_golden_master.py`
-- [ ] Phase 2 — Auth & authorization
+- [x] **Phase 2 — Auth & authorization**: claim-flow password auth (D3), Flask-Login,
+      CSRF on all forms, login rate limit, `admin_required`, admin password reset
 - [ ] Phase 3 — Core domain (seasons, schedule, signup, cancellation)
 - [ ] Phase 4 — Teams & results
 - [ ] Phase 5 — Statistics

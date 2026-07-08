@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Registrácia — Fodbal Černyševského{% endblock %}
+
+{% block content %}
+<section class="auth-card">
+    <h1>Registrácia</h1>
+    <p class="tagline">pridaj sa k zeleno-oranžovým</p>
+
+    <form method="POST" class="stack-form" novalidate>
+        {{ form.hidden_tag() }}
+        {% for field in [form.nickname, form.name, form.surname, form.password, form.confirm] %}
+        <label for="{{ field.id }}">{{ field.label.text }}</label>
+        {{ field(autocomplete="new-password" if 'heslo' in field.label.text|lower else "off") }}
+        {% for err in field.errors %}<p class="field-error">{{ err }}</p>{% endfor %}
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Registrovať</button>
+    </form>
+
+    <p class="auth-hint">Už máš účet? <a href="{{ url_for('auth.login') }}">Prihlás sa</a>.</p>
+</section>
+{% endblock %}

@@ -10,14 +10,18 @@
     <header class="topbar">
         <a class="brand" href="{{ url_for('main.index') }}">⚽ Fodbal Černyševského</a>
         <nav class="topnav">
-            <a class="navlink" href="{{ url_for('matches.calendar') }}">Zápasy</a>
-            <a class="navlink" href="{{ url_for('stats.global_stats') }}">Štatistiky</a>
-            {% if current_user.is_authenticated %}
-                <a class="navlink" href="{{ url_for('stats.my_stats') }}">Moje výsledky</a>
-            {% endif %}
-            {% if current_user.is_authenticated and current_user.is_admin %}
-                <a class="navlink" href="{{ url_for('admin.dashboard') }}">Admin</a>
-            {% endif %}
+            <span class="topnav-links">
+                <a class="navlink" href="{{ url_for('matches.calendar') }}">Zápasy</a>
+                <a class="navlink" href="{{ url_for('main.players') }}">Hráči</a>
+                <a class="navlink" href="{{ url_for('stats.global_stats') }}">Štatistiky</a>
+                {% if current_user.is_authenticated %}
+                    <a class="navlink" href="{{ url_for('stats.my_stats') }}">Moje výsledky</a>
+                    <a class="navlink" href="{{ url_for('payments.my_payment') }}">Platba</a>
+                {% endif %}
+                {% if current_user.is_authenticated and current_user.is_admin %}
+                    <a class="navlink" href="{{ url_for('admin.dashboard') }}">Admin</a>
+                {% endif %}
+            </span>
             {% if current_user.is_authenticated %}
                 <span class="whoami">{{ current_user.nickname }}{% if current_user.is_admin %} <span class="badge">admin</span>{% endif %}</span>
                 <form action="{{ url_for('auth.logout') }}" method="POST" class="inline-form">
@@ -26,6 +30,7 @@
                 </form>
             {% else %}
                 <a class="btn btn-ghost" href="{{ url_for('auth.login') }}">Prihlásiť sa</a>
+                <a class="btn btn-primary" href="{{ url_for('auth.register') }}">Registrácia</a>
             {% endif %}
         </nav>
     </header>
@@ -46,5 +51,21 @@
     <footer class="footer">
         <p>&copy; 2025–2026 Fodbal Černyševského</p>
     </footer>
+
+    <!-- Mobile bottom navigation -->
+    <nav class="bottomnav">
+        <a href="{{ url_for('matches.calendar') }}"><span class="bn-ico">⚽</span><span>Zápasy</span></a>
+        <a href="{{ url_for('stats.global_stats') }}"><span class="bn-ico">📊</span><span>Štatistiky</span></a>
+        {% if current_user.is_authenticated %}
+        <a href="{{ url_for('stats.my_stats') }}"><span class="bn-ico">📈</span><span>Moje</span></a>
+        <a href="{{ url_for('payments.my_payment') }}"><span class="bn-ico">💶</span><span>Platba</span></a>
+        {% if current_user.is_admin %}
+        <a href="{{ url_for('admin.dashboard') }}"><span class="bn-ico">⚙️</span><span>Admin</span></a>
+        {% endif %}
+        {% else %}
+        <a href="{{ url_for('main.players') }}"><span class="bn-ico">👥</span><span>Hráči</span></a>
+        <a href="{{ url_for('auth.login') }}"><span class="bn-ico">🔑</span><span>Prihlásiť</span></a>
+        {% endif %}
+    </nav>
 </body>
 </html>

@@ -23,6 +23,17 @@
         <div class="stat-card"><span class="stat-num">{{ '%.1f'|format(p.average_team_score_contribution) }}</span><span class="stat-label">gólov môjho tímu na zápas</span></div>
     </div>
 
+    {% if history %}
+    <div class="card">
+        <h3>📈 Forma <span class="muted">(chronologicky)</span></h3>
+        <div class="form-strip">
+            {% for h in history %}
+            <span class="res res-{{ h.result|lower }}" title="{{ h.date.strftime('%d.%m.%Y') }} · {{ h.score }}">{{ h.result }}</span>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
     <div class="stat-grid">
         <div class="card">
             <h3>🔥 Série</h3>

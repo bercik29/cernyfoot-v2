@@ -216,6 +216,25 @@ def _top3_streaks(played: list, want_wins: bool) -> list:
     return [(p, d["max"]) for p, d in top]
 
 
+def player_history(nickname: str, season: Season) -> list:
+    """Chronological W/D/L history for the form strip on /my_stats."""
+    out = []
+    for m in played_matches(season):
+        for nick, team in m.rows:
+            if nick == nickname:
+                if _won(team, m.green, m.orange):
+                    result = "W"
+                elif m.green == m.orange:
+                    result = "D"
+                else:
+                    result = "L"
+                out.append(
+                    {"date": m.date, "team": team, "score": f"{m.green}:{m.orange}", "result": result}
+                )
+                break
+    return out
+
+
 # ---- Personal statistics ----------------------------------------------------------
 
 

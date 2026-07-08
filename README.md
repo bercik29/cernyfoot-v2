@@ -61,5 +61,7 @@ cernyfoot-v2/
 - [x] **Phase 5 — Statistics**: all 23 global + 12 personal metrics from one query per
       season; golden-master parity proven for both seasons (incl. the `robert ` phantom
       whitespace fix and the 2026-02-19 auto-cancel rule)
-- [ ] Phase 6 — Frontend / UX
+- [x] **Phase 6 — Frontend / UX**: payments (self-view + admin matrix), open registration
+      with guest-history upgrade, players page, landing page, mobile bottom-nav,
+      form-strip & league-bar charts
 - [ ] Phase 7 — Cutover

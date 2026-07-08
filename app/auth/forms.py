@@ -2,12 +2,30 @@
 rules — any non-empty password is accepted; the login rate limit is the guardrail."""
 from flask_wtf import FlaskForm
 from wtforms import PasswordField, StringField
-from wtforms.validators import DataRequired, EqualTo
+from wtforms.validators import DataRequired, EqualTo, Length, Optional
 
 
 class LoginForm(FlaskForm):
     nickname = StringField("Prezývka", validators=[DataRequired(message="Zadaj prezývku.")])
     password = PasswordField("Heslo", validators=[DataRequired(message="Zadaj heslo.")])
+
+
+class RegisterForm(FlaskForm):
+    nickname = StringField(
+        "Prezývka", validators=[DataRequired(message="Zadaj prezývku."), Length(max=50)]
+    )
+    name = StringField("Meno (nepovinné)", validators=[Optional(), Length(max=80)])
+    surname = StringField("Priezvisko (nepovinné)", validators=[Optional(), Length(max=80)])
+    password = PasswordField(
+        "Heslo", validators=[DataRequired(message="Heslo nemôže byť prázdne.")]
+    )
+    confirm = PasswordField(
+        "Heslo znova",
+        validators=[
+            DataRequired(message="Zopakuj heslo."),
+            EqualTo("password", message="Heslá sa nezhodujú."),
+        ],
+    )
 
 
 class ClaimForm(FlaskForm):

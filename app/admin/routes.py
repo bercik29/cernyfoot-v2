@@ -13,7 +13,7 @@ import secrets
 from flask import flash, redirect, render_template, request, url_for
 
 from ..extensions import db
-from ..models import Holiday, Match, MatchStatus, Player, Season, Signup, Team
+from ..models import Holiday, Match, MatchStatus, Payment, Player, Season, Signup, Team
 from ..services import form as form_svc
 from ..services import seasons as seasons_svc
 from ..services import timing
@@ -324,6 +324,57 @@ def remove_player(match_id: int, player_id: int):
         db.session.commit()
         flash(f"{nickname} odstránený zo súpisky.", "success")
     return redirect(safe_referrer() or url_for("matches.detail", match_id=match_id))
+
+
+# ---- Payments (admin matrix) ---------------------------------------------------
+
+PAID, UNPAID = "Vyplatené", "Nevyplatené"
+
+
+@bp.route("/payments", methods=["GET", "POST"])
+@admin_required
+def payments():
+    season, _ = seasons_svc.resolve(request.args.get("season") or request.form.get("season"))
+    if season is None:
+        flash("Zatiaľ nie je vytvorená žiadna sezóna.", "info")
+        return redirect(url_for("admin.dashboard"))
+
+    players = Player.query.filter_by(is_guest=False).order_by(Player.nickname).all()
+
+    # Auto-enrol: every registered player gets a row for the selected season.
+    existing = {p.player_id: p for p in Payment.query.filter_by(season_id=season.id)}
+    for player in players:
+        if player.id not in existing:
+            row = Payment(player_id=player.id, season_id=season.id, status=UNPAID)
+            db.session.add(row)
+            existing[player.id] = row
+    db.session.flush()
+
+    if request.method == "POST":
+        changed = 0
+        for player in players:
+            status = request.form.get(f"status_{player.id}")
+            if status in (PAID, UNPAID) and existing[player.id].status != status:
+                existing[player.id].status = status
+                changed += 1
+        log_action("payments.update", entity=f"season:{season.label}",
+                   payload={"changed": changed})
+        db.session.commit()
+        flash(f"Uložené ({changed} zmien).", "success")
+        return redirect(url_for("admin.payments", season=season.label))
+
+    db.session.commit()  # persist any auto-enrolled rows
+    rows = [(p, existing[p.id]) for p in players]
+    paid_count = sum(1 for _, pay in rows if pay.status == PAID)
+    return render_template(
+        "admin/payments.html",
+        season=season,
+        seasons=seasons_svc.all_seasons(),
+        rows=rows,
+        paid_count=paid_count,
+        PAID=PAID,
+        UNPAID=UNPAID,
+    )
 
 
 # ---- Result entry -------------------------------------------------------------------

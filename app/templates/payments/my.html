@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Platba — Fodbal Černyševského{% endblock %}
+
+{% block content %}
+<section class="page">
+    <div class="page-head">
+        <h1>Platba</h1>
+        <form method="GET" class="season-picker">
+            <select name="season" onchange="this.form.submit()">
+                {% for x in seasons %}
+                <option value="{{ x.label }}" {% if x.id == season.id %}selected{% endif %}>{{ x.label }}</option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+
+    <div class="card payment-card">
+        <h2>Sezóna {{ season.label }}</h2>
+        {% if status == PAID %}
+        <p class="payment-status paid">✅ Vyplatené</p>
+        {% else %}
+        <p class="payment-status unpaid">⏳ Nevyplatené</p>
+        <p class="auth-hint">Platby vyberá a potvrdzuje admin.</p>
+        {% endif %}
+    </div>
+
+    {% if history|length > 1 %}
+    <h2>História</h2>
+    <table class="table">
+        <thead><tr><th>Sezóna</th><th>Stav</th></tr></thead>
+        <tbody>
+            {% for pay in history %}
+            <tr>
+                <td>{{ pay.season.label }}</td>
+                <td>{% if pay.status == PAID %}<span class="tag tag-scheduled">Vyplatené</span>{% else %}<span class="tag tag-cancelled">Nevyplatené</span>{% endif %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</section>
+{% endblock %}

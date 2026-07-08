@@ -11,10 +11,11 @@ from flask import current_app, flash, redirect, render_template, request, url_fo
 from flask_login import current_user, login_required, login_user, logout_user
 
 from ..extensions import db, limiter
-from ..models import Player
+from ..models import Payment, Player
+from ..services import seasons as seasons_svc
 from ..utils import admin_required, is_safe_url, log_action, safe_referrer
 from . import bp
-from .forms import ClaimForm, LoginForm
+from .forms import ClaimForm, LoginForm, RegisterForm
 
 
 def _login_limit() -> str:
@@ -70,6 +71,49 @@ def claim(nickname: str):
         return redirect(url_for("main.index"))
 
     return render_template("auth/claim.html", form=form, player=player)
+
+
+@bp.route("/register", methods=["GET", "POST"])
+@limiter.limit(_login_limit, methods=["POST"])
+def register():
+    """Open registration. A nickname that exists as a GUEST record is upgraded to
+    a full account, keeping its match history; a registered nickname is refused."""
+    if current_user.is_authenticated:
+        return redirect(url_for("main.index"))
+
+    form = RegisterForm()
+    if form.validate_on_submit():
+        nickname = form.nickname.data.strip()
+        player = Player.query.filter_by(nickname=nickname).first()
+
+        if player is not None and not player.is_guest:
+            flash("Táto prezývka už existuje. Prihlás sa, alebo si vyber inú.", "error")
+            return render_template("auth/register.html", form=form)
+
+        if player is None:
+            player = Player(nickname=nickname)
+            db.session.add(player)
+        else:  # guest upgrade — history stays attached
+            player.is_guest = False
+        player.name = (form.name.data or "").strip() or None
+        player.surname = (form.surname.data or "").strip() or None
+        player.set_password(form.password.data)
+        db.session.flush()
+
+        # Auto-enrol in dues for the current season (original registration parity).
+        season, _ = seasons_svc.resolve()
+        if season is not None and not Payment.query.filter_by(
+            player_id=player.id, season_id=season.id
+        ).first():
+            db.session.add(Payment(player_id=player.id, season_id=season.id, status="Nevyplatené"))
+
+        log_action("auth.register", entity=f"player:{player.nickname}")
+        db.session.commit()
+        login_user(player)
+        flash(f"Vitaj, {player.nickname}! Registrácia hotová.", "success")
+        return redirect(url_for("matches.calendar"))
+
+    return render_template("auth/register.html", form=form)
 
 
 @bp.route("/logout", methods=["POST"])

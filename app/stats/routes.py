@@ -34,10 +34,12 @@ def my_stats():
         flash("Zatiaľ nie je vytvorená žiadna sezóna.", "info")
         return redirect(url_for("main.index"))
     data = stats_svc.player_stats(current_user.nickname, season)
+    history = stats_svc.player_history(current_user.nickname, season)
     return render_template(
         "stats/my.html",
         season=season,
         seasons=seasons_svc.all_seasons(),
         off_season=off_season,
         p=data,
+        history=history,
     )

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Hráči — Fodbal Černyševského{% endblock %}
+
+{% block content %}
+<section class="page">
+    <h1>Hráči <span class="muted">({{ players|length }})</span></h1>
+    <table class="table">
+        <thead><tr><th>Prezývka</th><th>Meno</th></tr></thead>
+        <tbody>
+            {% for p in players %}
+            <tr>
+                <td><strong>{{ p.nickname }}</strong>{% if p.is_admin %} <span class="badge">admin</span>{% endif %}</td>
+                <td>{{ p.name or '' }} {{ p.surname or '' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

@@ -52,11 +52,13 @@ def create_app(config_name: str | None = None) -> Flask:
     from .matches import bp as matches_bp
     from .admin import bp as admin_bp
     from .stats import bp as stats_bp
+    from .payments import bp as payments_bp
     app.register_blueprint(main_bp)
     app.register_blueprint(auth_bp)
     app.register_blueprint(matches_bp)
     app.register_blueprint(admin_bp)
     app.register_blueprint(stats_bp)
+    app.register_blueprint(payments_bp)
 
     # Minimal error pages (styled properly in the frontend phase).
     @app.errorhandler(403)

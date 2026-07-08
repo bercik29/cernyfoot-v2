@@ -48,8 +48,10 @@
     {# --- League table --- #}
     <div class="card">
         <h2>Tabuľka</h2>
+        {% set max_points = s.all_players_stats.values()|map(attribute='points')|max if s.all_players_stats else 1 %}
+        <div class="table-wrap">
         <table class="table league">
-            <thead><tr><th>#</th><th>Hráč</th><th>Z</th><th>V</th><th>R</th><th>P</th><th>Body</th></tr></thead>
+            <thead><tr><th>#</th><th>Hráč</th><th>Z</th><th>V</th><th>R</th><th>P</th><th>Body</th><th class="ptsbar-col"></th></tr></thead>
             <tbody>
                 {% for nick, row in s.all_players_stats.items() %}
                 <tr>
@@ -60,10 +62,12 @@
                     <td>{{ row.draws }}</td>
                     <td>{{ row.losses }}</td>
                     <td><strong>{{ row.points }}</strong></td>
+                    <td class="ptsbar-col"><div class="ptsbar" style="width: {{ 100 * row.points / max_points if max_points else 0 }}%"></div></td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+        </div>
     </div>
 
     {# --- Top-3 grids --- #}

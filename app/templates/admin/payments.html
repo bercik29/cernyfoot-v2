@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Platby — Admin{% endblock %}
+
+{% block content %}
+<section class="page">
+    <p><a href="{{ url_for('admin.dashboard') }}">← Admin</a></p>
+    <div class="page-head">
+        <h1>Platby</h1>
+        <form method="GET" class="season-picker">
+            <select name="season" onchange="this.form.submit()">
+                {% for x in seasons %}
+                <option value="{{ x.label }}" {% if x.id == season.id %}selected{% endif %}>{{ x.label }}</option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+
+    <p class="notice">Vyplatené: <strong>{{ paid_count }}</strong> / {{ rows|length }} hráčov · sezóna {{ season.label }}</p>
+
+    <form method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="season" value="{{ season.label }}">
+        <table class="table">
+            <thead><tr><th>Hráč</th><th>Stav</th></tr></thead>
+            <tbody>
+                {% for player, payment in rows %}
+                <tr>
+                    <td>{{ player.nickname }}{% if player.name or player.surname %} <span class="muted">({{ player.name }} {{ player.surname }})</span>{% endif %}</td>
+                    <td>
+                        <select name="status_{{ player.id }}">
+                            <option value="{{ UNPAID }}" {% if payment.status != PAID %}selected{% endif %}>⏳ Nevyplatené</option>
+                            <option value="{{ PAID }}" {% if payment.status == PAID %}selected{% endif %}>✅ Vyplatené</option>
+                        </select>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p><button type="submit" class="btn btn-primary">Uložiť platby</button></p>
+    </form>
+</section>
+{% endblock %}

@@ -184,3 +184,52 @@ a { color: var(--green); }
 .duel-draw { background: #9aa4a0; }
 .duel-orange { background: var(--orange); }
 .duel-caption { color: #8a938f; font-size: .8rem; margin-top: .4rem; text-align: center; }
+
+/* League points bars */
+.table-wrap { overflow-x: auto; }
+.ptsbar-col { width: 26%; min-width: 5rem; }
+.ptsbar { height: .8rem; border-radius: .4rem; background: linear-gradient(90deg, var(--green), #7fb98a); }
+
+/* Form strip (W/D/L) */
+.form-strip { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .6rem; }
+.res {
+    width: 1.6rem; height: 1.6rem; border-radius: .4rem; color: #fff;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: .8rem; font-weight: 700; cursor: default;
+}
+.res-w { background: var(--green); }
+.res-d { background: #9aa4a0; }
+.res-l { background: #c8402e; }
+
+/* Payments */
+.payment-card { text-align: center; }
+.payment-status { font-size: 1.4rem; font-weight: 700; margin: .5rem 0; }
+.payment-status.paid { color: #1e6b3c; }
+.payment-status.unpaid { color: #8a6413; }
+.muted { color: #8a938f; font-weight: 400; font-size: .9em; }
+
+/* Landing hero */
+.hero { text-align: center; max-width: 30rem; }
+.hero-card { text-align: center; margin: 1.5rem auto; }
+.hero-actions { display: flex; gap: .75rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; }
+
+/* Mobile bottom navigation */
+.bottomnav { display: none; }
+@media (max-width: 700px) {
+    .topnav-links { display: none; }
+    .whoami { display: none; }
+    .container { padding: 1rem .8rem 5.5rem; }
+    .footer { padding-bottom: 5rem; }
+    .bottomnav {
+        display: flex; position: fixed; bottom: 0; left: 0; right: 0; z-index: 10;
+        background: #fff; border-top: 1px solid #e3e7e5;
+        padding: .35rem 0 calc(.35rem + env(safe-area-inset-bottom));
+    }
+    .bottomnav a {
+        flex: 1; display: flex; flex-direction: column; align-items: center; gap: .1rem;
+        text-decoration: none; color: #5a6560; font-size: .68rem;
+    }
+    .bn-ico { font-size: 1.25rem; }
+    .stat-cards { grid-template-columns: repeat(2, 1fr); }
+    .page-head { flex-direction: column; align-items: flex-start; }
+}

@@ -1,7 +1,7 @@
 # CSV → DB Migration — Reconciliation Report
 
 - Source: `/Users/berco/Analysis/futpage/cernyfoot/static`
-- Run at: 2026-07-08T09:53:53
+- Run at: 2026-07-08T10:29:53
 
 ## Counts
 
@@ -12,8 +12,8 @@
 - **holidays**: 34
 - **matches_total**: 71
 - **matches_played**: 54
-- **matches_cancelled**: 16
-- **matches_scheduled**: 1
+- **matches_cancelled**: 17
+- **matches_scheduled**: 0
 - **signups**: 510
 - **payments**: 22
 
@@ -43,5 +43,5 @@
 
 ## Warnings
 
-- past match 2026-02-19 has no players and no result — imported as scheduled (original stats counted it as played)
+- past match 2026-02-19 has no players and no result — auto-cancelled (original stats counted it as played)
 - rado missing from subscriptions.csv — defaulted to Nevyplatené

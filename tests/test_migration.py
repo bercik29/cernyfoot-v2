@@ -50,9 +50,13 @@ def test_drift_resolved_per_d2(report):
 
 
 def test_match_statuses(report):
-    # 16 cancelled dates in the source file.
-    assert report["counts"]["matches_cancelled"] == 16
-    assert Match.query.filter_by(status=MatchStatus.cancelled).count() == 16
+    # 16 cancelled dates in the source file + 2026-02-19 auto-cancelled
+    # (past, zero signups, no result — the "forgot to cancel" match).
+    assert report["counts"]["matches_cancelled"] == 17
+    assert Match.query.filter_by(status=MatchStatus.cancelled).count() == 17
+    auto = Match.query.filter_by(date=date(2026, 2, 19)).one()
+    assert auto.status == MatchStatus.cancelled
+    assert any("2026-02-19" in w and "auto-cancelled" in w for w in report["warnings"])
     # Every played match has a result; no played match sits at 0:0 (audit §4).
     for m in Match.query.filter_by(status=MatchStatus.played):
         assert m.has_result

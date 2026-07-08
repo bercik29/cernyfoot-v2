@@ -155,3 +155,32 @@ a { color: var(--green); }
 .admin-panel select {
     padding: .35rem .5rem; border: 1px solid #cfd6d2; border-radius: .5rem; background: #fff;
 }
+
+/* Statistics */
+.page-wide { max-width: 56rem; }
+.stat-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: .75rem; margin: 1rem 0; }
+.stat-card {
+    background: #fff; border: 1px solid #e3e7e5; border-radius: .9rem;
+    padding: 1rem; display: flex; flex-direction: column; gap: .25rem; text-align: center;
+}
+.stat-num { font-size: 1.7rem; font-weight: 700; color: var(--ink); }
+.stat-sub { font-size: 1rem; font-weight: 400; color: #8a938f; }
+.stat-label { font-size: .8rem; color: #5a6560; }
+
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1rem; margin: 1rem 0; }
+.top3 { margin: .5rem 0 0; padding-left: 1.4rem; }
+.top3 li { padding: .25rem 0; }
+.top3-name { font-weight: 600; }
+.top3-val { float: right; color: #5a6560; }
+.facts { list-style: none; padding: 0; margin: .5rem 0 0; }
+.facts li { padding: .3rem 0; }
+
+.league td, .league th { text-align: center; }
+.league td:nth-child(2), .league th:nth-child(2) { text-align: left; }
+
+.duel-bar { display: flex; height: 2.2rem; border-radius: .6rem; overflow: hidden; margin-top: .75rem; color: #fff; font-weight: 700; }
+.duel-bar > div { display: flex; align-items: center; justify-content: center; min-width: 1.6rem; }
+.duel-green { background: var(--green); }
+.duel-draw { background: #9aa4a0; }
+.duel-orange { background: var(--orange); }
+.duel-caption { color: #8a938f; font-size: .8rem; margin-top: .4rem; text-align: center; }

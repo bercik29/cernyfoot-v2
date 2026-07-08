@@ -58,6 +58,8 @@ cernyfoot-v2/
       seasons & holidays admin UI
 - [x] **Phase 4 — Teams & results**: ported balancing algorithm (pure, seeded, logged),
       manual team editor, roster add/remove, result entry (score stored once)
-- [ ] Phase 5 — Statistics
+- [x] **Phase 5 — Statistics**: all 23 global + 12 personal metrics from one query per
+      season; golden-master parity proven for both seasons (incl. the `robert ` phantom
+      whitespace fix and the 2026-02-19 auto-cancel rule)
 - [ ] Phase 6 — Frontend / UX
 - [ ] Phase 7 — Cutover

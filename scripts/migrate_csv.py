@@ -217,20 +217,24 @@ def migrate(source: Path, session, today: date | None = None) -> dict:
                 report["warnings"].append(
                     f"match {date_str} imported as played 0:0 — verify (not in cancelled list)"
                 )
+        elif match_date <= today and not rows:
+            # e.g. 2026-02-19: past, never cancelled, zero signups — the match
+            # demonstrably didn't happen, the admin just forgot to cancel it.
+            # Import as cancelled (reversible via the admin restore button).
+            # capture_golden_master.py applies the identical rule so the golden
+            # master and v2 stats agree on the played-match denominator.
+            status, score = MatchStatus.cancelled, None
+            n_cancelled += 1
+            report["warnings"].append(
+                f"past match {date_str} has no players and no result — auto-cancelled "
+                f"(original stats counted it as played)"
+            )
         else:
             status, score = MatchStatus.scheduled, None
             n_scheduled += 1
             if match_date <= today and rows:
                 report["warnings"].append(
                     f"past match {date_str} has players but no parseable score — imported as scheduled"
-                )
-            elif match_date <= today:
-                # e.g. 2026-02-19: past, not cancelled, zero signups. The original
-                # stats engine counted such matches as played (filename-date only);
-                # v2 does not. Flag for owner review / golden-master exception.
-                report["warnings"].append(
-                    f"past match {date_str} has no players and no result — imported as "
-                    f"scheduled (original stats counted it as played)"
                 )
 
         match = Match(

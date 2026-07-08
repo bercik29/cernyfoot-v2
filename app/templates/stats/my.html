@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Moje výsledky — Fodbal Černyševského{% endblock %}
+
+{% block content %}
+<section class="page page-wide">
+    <div class="page-head">
+        <h1>Moje výsledky · {{ current_user.nickname }}</h1>
+        <form method="GET" class="season-picker">
+            <select name="season" onchange="this.form.submit()">
+                {% for x in seasons %}
+                <option value="{{ x.label }}" {% if x.id == season.id %}selected{% endif %}>{{ x.label }}</option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+
+    {% set wins, losses, win_pct, draws = p.wins_losses %}
+    <div class="stat-cards">
+        <div class="stat-card"><span class="stat-num">{{ p.matches_played }}<span class="stat-sub">/{{ p.total_matches_played[0] }}</span></span><span class="stat-label">zápasov ({{ '%.0f%%'|format(p.match_attendance_rate * 100) }} účasť)</span></div>
+        <div class="stat-card"><span class="stat-num">{{ wins }}-{{ draws }}-{{ losses }}</span><span class="stat-label">výhry-remízy-prehry</span></div>
+        <div class="stat-card"><span class="stat-num">{{ '%.0f%%'|format(win_pct) }}</span><span class="stat-label">úspešnosť (bez remíz)</span></div>
+        <div class="stat-card"><span class="stat-num">{{ '%+d'|format(p.goal_differential) }}</span><span class="stat-label">gólový rozdiel</span></div>
+        <div class="stat-card"><span class="stat-num">{{ '%.1f'|format(p.average_team_score_contribution) }}</span><span class="stat-label">gólov môjho tímu na zápas</span></div>
+    </div>
+
+    <div class="stat-grid">
+        <div class="card">
+            <h3>🔥 Série</h3>
+            <ul class="facts">
+                <li>Najdlhšia víťazná séria: <strong>{{ p.winning_losing_streak[0] }}</strong></li>
+                <li>Najdlhšia séria bez prehry: <strong>{{ p.winning_losing_streak[2] }}</strong></li>
+                <li>Najdlhšia séria prehier: <strong>{{ p.winning_losing_streak[1] }}</strong></li>
+            </ul>
+        </div>
+        <div class="card">
+            <h3>🟢🟠 Tímy</h3>
+            <ul class="facts">
+                <li>Za Zelených: <strong>{{ p.team_breakdown[0] }}×</strong> (úspešnosť {{ '%.0f%%'|format(p.team_performance[0] * 100) }})</li>
+                <li>Za Oranžových: <strong>{{ p.team_breakdown[1] }}×</strong> (úspešnosť {{ '%.0f%%'|format(p.team_performance[1] * 100) }})</li>
+            </ul>
+        </div>
+        <div class="card">
+            <h3>⭐ Rekord</h3>
+            <ul class="facts">
+                {% if p.pl_highest_scoring_match[0] %}
+                <li>Najviac gólov môjho tímu: <strong>{{ p.pl_highest_scoring_match[1] }}</strong> ({{ p.pl_highest_scoring_match[0] }})</li>
+                {% else %}
+                <li>Zatiaľ žiadny odohraný zápas v tejto sezóne.</li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</section>
+{% endblock %}

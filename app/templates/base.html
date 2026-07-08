@@ -11,6 +11,10 @@
         <a class="brand" href="{{ url_for('main.index') }}">⚽ Fodbal Černyševského</a>
         <nav class="topnav">
             <a class="navlink" href="{{ url_for('matches.calendar') }}">Zápasy</a>
+            <a class="navlink" href="{{ url_for('stats.global_stats') }}">Štatistiky</a>
+            {% if current_user.is_authenticated %}
+                <a class="navlink" href="{{ url_for('stats.my_stats') }}">Moje výsledky</a>
+            {% endif %}
             {% if current_user.is_authenticated and current_user.is_admin %}
                 <a class="navlink" href="{{ url_for('admin.dashboard') }}">Admin</a>
             {% endif %}

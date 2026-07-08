@@ -512,6 +512,10 @@ tr.top1 td { background: rgba(47, 191, 113, .05); }
 @media (max-width: 820px) {
     .topnav-links, .whoami { display: none; }
     .auth-zone { border-left: none; padding-left: 0; }
+    /* login lives in the bottom nav on mobile; keep only the primary CTA */
+    .auth-zone .btn-outline-light { display: none; }
+    .bar { gap: 10px; padding: 0 14px; }
+    .brand { font-size: 13px; gap: 8px; }
     .container { padding: 28px 16px 96px; }
     .footer { padding-bottom: 96px; }
     .hero-grid { grid-template-columns: 1fr; }

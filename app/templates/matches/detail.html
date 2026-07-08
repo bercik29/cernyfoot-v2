@@ -2,57 +2,79 @@
 {% block title %}Zápas {{ match.date.strftime('%d.%m.%Y') }} — Fodbal Černyševského{% endblock %}
 
 {% block content %}
-<section class="page">
-    <p><a href="{{ url_for('matches.calendar') }}">← Späť na zápasy</a></p>
-    <div class="page-head">
-        <h1>Zápas {{ match.date.strftime('%d.%m.%Y') }}</h1>
-        {% if match.status.value == 'cancelled' %}
-            <span class="tag tag-cancelled">Nehralo sa</span>
-        {% elif match.has_result %}
-            <span class="score score-big"><span class="dot dot-green"></span>{{ match.green_score }} : {{ match.orange_score }}<span class="dot dot-orange"></span></span>
-        {% endif %}
-    </div>
+<section class="page-wide view-fade" style="width:100%;max-width:640px">
+    <p style="margin:0 0 18px"><a class="backlink" href="{{ url_for('matches.calendar') }}">← Späť na zápasy</a></p>
 
-    {% if current_user.is_authenticated and signup_open %}
-    <div class="card">
-        {% if signed_up %}
-            <p class="you-are-in">✅ Si prihlásený</p>
+    {# ---------- scoreboard ---------- #}
+    <div class="card board" style="margin-top:0">
+        <div class="board-head">
+            <span class="board-date mono">{{ match.date|skday }} {{ match.date.strftime('%d.%m.%Y') }}</span>
+            {% if match.status.value == 'cancelled' %}
+                <span class="live off">Nehralo sa</span>
+            {% elif match.has_result %}
+                <span class="live">Odohraný</span>
+            {% elif signup_open %}
+                <span class="live">Najbližší</span>
+            {% else %}
+                <span class="live off">Naplánovaný</span>
+            {% endif %}
+        </div>
+        {% set g, o = match.green_score, match.orange_score %}
+        <div class="score">
+            <div class="team-side">
+                <span class="kit g"><span class="swatch"></span>Zelení</span>
+                {% if match.has_result %}<span class="num {{ 'win' if g >= o else 'lose' }}">{{ g }}</span>
+                {% else %}<span class="num open">?</span>{% endif %}
+            </div>
+            <span class="vs">:</span>
+            <div class="team-side right">
+                <span class="kit o"><span class="swatch"></span>Oranžoví</span>
+                {% if match.has_result %}<span class="num {{ 'win' if o >= g else 'lose' }}">{{ o }}</span>
+                {% else %}<span class="num open">?</span>{% endif %}
+            </div>
+        </div>
+        {% if current_user.is_authenticated and signup_open %}
+        <div class="board-actions">
+            {% if signed_up %}
+            <span class="you-are-in">✔ Si prihlásený</span>
             <form method="POST" action="{{ url_for('matches.signout', match_id=match.id) }}" class="inline-form">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <button type="submit" class="btn btn-ghost">Odhlásiť sa</button>
             </form>
-        {% else %}
+            {% else %}
             <form method="POST" action="{{ url_for('matches.signup', match_id=match.id) }}" class="inline-form">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                <button type="submit" class="btn btn-primary">Prihlásiť sa</button>
+                <button type="submit" class="btn btn-fill">Prihlásiť sa</button>
             </form>
+            {% endif %}
+        </div>
+        <p class="board-foot">Prihlasovanie do {{ signup_deadline.strftime('%d.%m. %H:%M') }}</p>
         {% endif %}
-        <p class="deadline-note">Prihlasovanie do {{ signup_deadline.strftime('%d.%m. %H:%M') }}</p>
     </div>
-    {% endif %}
 
-    <div class="teams-grid">
-        {% if by_team.values()|map('length')|sum > 0 %}
-            {% for team, players in by_team.items() %}
-                {% if players %}
-                <div class="team-col team-{{ team.value }}">
-                    <h3>
-                        {% if team.value == 'green' %}🟢 Zelení
-                        {% elif team.value == 'orange' %}🟠 Oranžoví
-                        {% elif team.value == 'guest' %}👤 Hostia
-                        {% else %}⏳ Zatiaľ nerozdelení{% endif %}
-                        ({{ players|length }})
-                    </h3>
-                    <ul>
-                        {% for p in players %}<li>{{ p.nickname }}</li>{% endfor %}
-                    </ul>
-                </div>
-                {% endif %}
-            {% endfor %}
-        {% else %}
-            <p class="notice">Zatiaľ nikto nie je prihlásený.</p>
-        {% endif %}
+    {# ---------- rosters ---------- #}
+    {% if by_team.values()|map('length')|sum > 0 %}
+    <div class="rosters">
+        {% for team, players in by_team.items() %}
+            {% if players %}
+            <div class="roster {{ 'g' if team.value == 'green' else ('o' if team.value == 'orange' else 'n') }}">
+                <h5>
+                    {% if team.value == 'green' %}Zelení
+                    {% elif team.value == 'orange' %}Oranžoví
+                    {% elif team.value == 'guest' %}Hostia
+                    {% else %}Zatiaľ nerozdelení{% endif %}
+                    <span class="mono" style="font-weight:400">({{ players|length }})</span>
+                </h5>
+                <ul>
+                    {% for p in players %}<li>{{ p.nickname }}</li>{% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        {% endfor %}
     </div>
+    {% elif match.status.value != 'cancelled' %}
+    <p class="sub" style="text-align:center;margin-top:24px">Zatiaľ nikto nie je prihlásený.</p>
+    {% endif %}
 
     {% if current_user.is_authenticated and current_user.is_admin %}
     <div class="card admin-panel">

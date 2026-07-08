@@ -3,8 +3,10 @@
 
 {% block content %}
 <section class="page">
-    <p><a href="{{ url_for('admin.dashboard') }}">← Admin</a></p>
-    <h1>Sezóny</h1>
+    <p><a class="backlink" href="{{ url_for('admin.dashboard') }}">← Admin</a></p>
+    <div class="page-head">
+        <h1>Sezóny</h1>
+    </div>
 
     <table class="table">
         <thead><tr><th>Sezóna</th><th>Od</th><th>Do</th><th>Hrací deň</th><th>Zápasov</th><th></th></tr></thead>

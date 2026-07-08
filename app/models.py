@@ -180,6 +180,9 @@ class Payment(db.Model):
     marked_by_id: Mapped[Optional[int]] = mapped_column(ForeignKey("players.id"))
     marked_at: Mapped[Optional[datetime]] = mapped_column(DateTime)
 
+    player: Mapped["Player"] = relationship(foreign_keys=[player_id])
+    season: Mapped["Season"] = relationship()
+
     def __repr__(self) -> str:
         return f"<Payment p={self.player_id} s={self.season_id} {self.status}>"
 

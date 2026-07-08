@@ -57,6 +57,24 @@ def test_payment_requires_login(client, season):
     assert resp.status_code == 302 and "/auth/login" in resp.headers["Location"]
 
 
+def test_my_payment_multi_season_history(client, player, season, session):
+    """Regression: with payments in 2+ seasons the history table renders
+    (production 500 — Payment had no `season` relationship)."""
+    older = Season(label="old", starts_on=season.starts_on - timedelta(days=400),
+                   ends_on=season.starts_on - timedelta(days=100), match_weekday=3,
+                   match_start=time(19, 0), match_end=time(20, 0))
+    session.add(older); session.flush()
+    session.add(Payment(player_id=player.id, season_id=season.id, status="Vyplatené"))
+    session.add(Payment(player_id=player.id, season_id=older.id, status="Nevyplatené"))
+    session.commit()
+
+    login(client, "hrac")
+    resp = client.get("/payment")
+    assert resp.status_code == 200
+    body = resp.get_data(as_text=True)
+    assert "História" in body and "old" in body
+
+
 def test_admin_payments_matrix(client, admin, player, season):
     login(client, "sef")
     # GET auto-enrols both players.

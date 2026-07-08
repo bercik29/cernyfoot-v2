@@ -32,6 +32,7 @@
     --shadow-lift: 0 2px 4px rgba(23, 34, 27, .08), 0 12px 28px -6px rgba(23, 34, 27, .14);
 
     --font: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    --font-display: 'Sora', 'Inter', system-ui, sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -53,10 +54,10 @@ body {
     flex-direction: column;
 }
 
-h1, h2, h3 { line-height: 1.2; letter-spacing: -.015em; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.2; letter-spacing: -.02em; }
 h1 { font-size: 1.9rem; font-weight: 800; margin: .4rem 0 1rem; }
-h2 { font-size: 1.2rem; font-weight: 700; margin: .2rem 0 .6rem; }
-h3 { font-size: 1.02rem; font-weight: 700; margin: 0 0 .4rem; }
+h2 { font-size: 1.15rem; font-weight: 700; margin: .2rem 0 .6rem; }
+h3 { font-size: 1rem; font-weight: 700; margin: 0 0 .4rem; }
 
 a { color: var(--green-700); text-decoration-thickness: 1px; text-underline-offset: 2px; }
 a:hover { color: var(--green); }
@@ -73,7 +74,7 @@ a:hover { color: var(--green); }
     box-shadow: 0 2px 12px rgba(15, 29, 20, .25);
 }
 .brand {
-    font-weight: 800; font-size: 1.05rem; letter-spacing: -.01em;
+    font-family: var(--font-display); font-weight: 800; font-size: 1.05rem; letter-spacing: -.01em;
     color: #fff; text-decoration: none; white-space: nowrap;
 }
 .brand-ball { display: inline-block; margin-right: .1rem; }
@@ -129,16 +130,44 @@ a:hover { color: var(--green); }
 }
 .page { width: 100%; max-width: 46rem; }
 .page-wide { max-width: 58rem; }
-.page-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+
+/* Page hero band — dark pitch panel holding the title + season picker */
+.page-head {
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+    background:
+        radial-gradient(500px 180px at 90% -40%, rgba(143, 214, 164, .18), transparent 70%),
+        radial-gradient(400px 160px at 5% 120%, rgba(224, 123, 46, .12), transparent 65%),
+        linear-gradient(135deg, var(--green-800), var(--green-700));
+    border-radius: var(--radius);
+    padding: 1.35rem 1.6rem;
+    margin: 0 0 1.2rem;
+    box-shadow: var(--shadow-lift);
+    animation: rise .35s ease backwards;
+}
+.page-head h1 { color: #fff; margin: 0; }
+.page-head .score { color: #fff; }
+.page-head .tag { background: rgba(255,255,255,.15); color: #fff; }
+.page-head .season-picker select {
+    background: rgba(255, 255, 255, .12); border-color: rgba(255, 255, 255, .25); color: #fff;
+}
+.page-head .season-picker select:focus { border-color: #8fd6a4; box-shadow: 0 0 0 3px rgba(143, 214, 164, .25); }
+.page-head .season-picker option { color: var(--ink); }
+
+.backlink { font-size: .85rem; font-weight: 600; text-decoration: none; }
 
 .footer { text-align: center; padding: 1.2rem 1rem 1.5rem; color: var(--ink-3); font-size: .82rem; }
 
 /* ---------------------------------------------------------------- cards */
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } }
+
 .card {
     background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
     box-shadow: var(--shadow);
     padding: 1.3rem 1.5rem; margin: 1rem 0;
+    animation: rise .35s ease backwards;
 }
+.card:nth-of-type(2) { animation-delay: .05s; }
+.card:nth-of-type(3) { animation-delay: .1s; }
 .upcoming-card { border-left: 5px solid var(--green); }
 .admin-panel { border-left: 5px solid var(--orange); }
 
@@ -211,6 +240,8 @@ a:hover { color: var(--green); }
 .league tbody tr:nth-child(1) td:first-child::after { content: ' 🥇'; }
 .league tbody tr:nth-child(2) td:first-child::after { content: ' 🥈'; }
 .league tbody tr:nth-child(3) td:first-child::after { content: ' 🥉'; }
+.league tbody tr.me { background: var(--green-050); box-shadow: inset 3px 0 0 var(--green); }
+.league tbody tr.me td:nth-child(2)::after { content: ' (ty)'; color: var(--green-700); font-size: .78em; font-weight: 700; }
 .ptsbar-col { width: 24%; min-width: 5rem; }
 .ptsbar { height: .7rem; border-radius: 999px; background: linear-gradient(90deg, var(--green-700), var(--green)); opacity: .85; }
 
@@ -222,8 +253,8 @@ a:hover { color: var(--green); }
 .tag-cancelled { background: var(--red-050); color: #8f2f22; }
 .tag-scheduled { background: var(--green-050); color: var(--green-700); }
 
-.score { font-weight: 800; display: inline-flex; align-items: center; gap: .4rem; font-variant-numeric: tabular-nums; }
-.score-big { font-size: 1.5rem; }
+.score { font-family: var(--font-display); font-weight: 800; display: inline-flex; align-items: center; gap: .4rem; font-variant-numeric: tabular-nums; }
+.score-big { font-size: 1.6rem; }
 .dot { width: .72rem; height: .72rem; border-radius: 50%; display: inline-block; box-shadow: inset 0 -2px 3px rgba(0,0,0,.15); }
 .dot-green { background: var(--green); }
 .dot-orange { background: var(--orange); }
@@ -233,6 +264,7 @@ a:hover { color: var(--green); }
 .signup-count { margin: .25rem 0; color: var(--ink-2); }
 .you-are-in { color: var(--green-700); font-weight: 700; }
 .deadline-note { color: var(--ink-3); font-size: .85rem; margin-top: .6rem; }
+.countdown { font-weight: 700; color: var(--green-700); font-variant-numeric: tabular-nums; }
 
 .match-list { list-style: none; padding: 0; margin: .3rem 0 1.2rem; }
 .match-list li {
@@ -258,12 +290,19 @@ a:hover { color: var(--green); }
 .stat-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); gap: .8rem; margin: 1.1rem 0; }
 .stat-card {
     background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow); border-top: 3px solid var(--green);
     padding: 1.05rem .9rem; display: flex; flex-direction: column; gap: .3rem; text-align: center;
     transition: transform .15s ease, box-shadow .15s ease;
+    animation: rise .35s ease backwards;
 }
+.stat-card:nth-child(2) { animation-delay: .04s; }
+.stat-card:nth-child(3) { animation-delay: .08s; }
+.stat-card:nth-child(4) { animation-delay: .12s; }
+.stat-card:nth-child(5) { animation-delay: .16s; }
+.stat-card:nth-child(6) { animation-delay: .2s; }
+.stat-card:nth-child(even) { border-top-color: var(--orange); }
 .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lift); }
-.stat-num { font-size: 1.75rem; font-weight: 800; letter-spacing: -.02em; color: var(--green-700); font-variant-numeric: tabular-nums; }
+.stat-num { font-family: var(--font-display); font-size: 1.75rem; font-weight: 800; letter-spacing: -.02em; color: var(--green-700); font-variant-numeric: tabular-nums; }
 .stat-sub { font-size: 1rem; font-weight: 500; color: var(--ink-3); }
 .stat-label { font-size: .78rem; font-weight: 500; color: var(--ink-2); }
 
@@ -280,7 +319,10 @@ a:hover { color: var(--green); }
 .duel-bar {
     display: flex; height: 2.4rem; border-radius: 999px; overflow: hidden;
     margin-top: .8rem; color: #fff; font-weight: 800; box-shadow: var(--shadow);
+    font-family: var(--font-display);
+    animation: wipe .9s cubic-bezier(.25, .8, .3, 1) backwards;
 }
+@keyframes wipe { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0); } }
 .duel-bar > div { display: flex; align-items: center; justify-content: center; min-width: 1.8rem; }
 .duel-green { background: linear-gradient(180deg, #37a058, var(--green-700)); }
 .duel-draw { background: #99a49c; }
@@ -352,9 +394,11 @@ a:hover { color: var(--green); }
     .bottomnav a {
         flex: 1; display: flex; flex-direction: column; align-items: center; gap: .12rem;
         text-decoration: none; color: var(--ink-3); font-size: .66rem; font-weight: 600;
-        padding: .15rem 0; border-radius: var(--radius-sm);
+        margin: 0 .2rem; padding: .2rem 0; border-radius: var(--radius-sm);
+        transition: background .15s, color .15s;
     }
-    .bottomnav a.active { color: var(--green-700); }
+    .bottomnav a.active { color: var(--green-700); background: var(--green-050); }
+    .page-head { padding: 1.1rem 1.15rem; }
     .bottomnav a.active .bn-ico { transform: translateY(-1px) scale(1.12); }
     .bn-ico { font-size: 1.3rem; transition: transform .15s; }
 }

@@ -54,7 +54,7 @@
             <thead><tr><th>#</th><th>Hráč</th><th>Z</th><th>V</th><th>R</th><th>P</th><th>Body</th><th class="ptsbar-col"></th></tr></thead>
             <tbody>
                 {% for nick, row in s.all_players_stats.items() %}
-                <tr>
+                <tr class="{{ 'me' if current_user.is_authenticated and nick == current_user.nickname }}">
                     <td>{{ loop.index }}</td>
                     <td>{{ nick }}</td>
                     <td>{{ row.games_played }}</td>

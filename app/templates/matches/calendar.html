@@ -23,7 +23,7 @@
     {% if upcoming %}
     <div class="card upcoming-card">
         <h2>Najbližší zápas</h2>
-        <p class="match-date">{{ upcoming.date.strftime('%A %d.%m.%Y') }} · {{ season.match_start.strftime('%H:%M') }}–{{ season.match_end.strftime('%H:%M') }}</p>
+        <p class="match-date">{{ upcoming.date|skday }} {{ upcoming.date.strftime('%d.%m.%Y') }} · {{ season.match_start.strftime('%H:%M') }}–{{ season.match_end.strftime('%H:%M') }}</p>
         <p class="signup-count">Prihlásených: <strong>{{ signup_count }}</strong></p>
 
         {% if current_user.is_authenticated %}
@@ -40,7 +40,8 @@
                     <button type="submit" class="btn btn-primary">Prihlásiť sa na zápas</button>
                 </form>
                 {% endif %}
-                <p class="deadline-note">Prihlasovanie do {{ signup_deadline.strftime('%d.%m. %H:%M') }}</p>
+                <p class="deadline-note">Prihlasovanie do {{ signup_deadline.strftime('%d.%m. %H:%M') }}
+                    <span class="countdown" data-deadline="{{ signup_deadline.isoformat() }}"></span></p>
             {% else %}
                 <p class="deadline-note">⏱ Prihlasovanie je uzavreté{% if signed_up %} — si na súpiske ✅{% endif %}</p>
             {% endif %}
@@ -88,4 +89,24 @@
     </table>
     {% endif %}
 </section>
+
+<script>
+(function () {
+    var el = document.querySelector('.countdown');
+    if (!el) return;
+    var deadline = new Date(el.dataset.deadline);
+    function tick() {
+        var diff = deadline - new Date();
+        if (diff <= 0) { el.textContent = ''; clearInterval(timer); return; }
+        var d = Math.floor(diff / 86400000),
+            h = Math.floor(diff / 3600000) % 24,
+            m = Math.floor(diff / 60000) % 60,
+            s = Math.floor(diff / 1000) % 60;
+        var pad = function (n) { return String(n).padStart(2, '0'); };
+        el.textContent = '· ešte ' + (d > 0 ? d + ' d ' : '') + pad(h) + ':' + pad(m) + ':' + pad(s);
+    }
+    tick();
+    var timer = setInterval(tick, 1000);
+})();
+</script>
 {% endblock %}

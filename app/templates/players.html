@@ -3,7 +3,9 @@
 
 {% block content %}
 <section class="page">
-    <h1>Hráči <span class="muted">({{ players|length }})</span></h1>
+    <div class="page-head">
+        <h1>Hráči <span class="muted">({{ players|length }})</span></h1>
+    </div>
     <table class="table">
         <thead><tr><th>Prezývka</th><th>Meno</th></tr></thead>
         <tbody>

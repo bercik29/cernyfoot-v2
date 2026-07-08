@@ -165,7 +165,11 @@ def test_distribute_assigns_and_logs(client, admin, match_with_roster):
     teams = {s.team for s in match_with_roster.signups}
     assert teams == {Team.green, Team.orange}
     greens = sum(1 for s in match_with_roster.signups if s.team == Team.green)
-    assert greens == 4  # 8 players with equal (0.0) form → even split
+    oranges = sum(1 for s in match_with_roster.signups if s.team == Team.orange)
+    assert greens + oranges == 8
+    # The algorithm's size split varies with the (random) seed; the 1000-draw
+    # property test bounds it at diff ≤ 2 — same tolerance here.
+    assert abs(greens - oranges) <= 2
 
     log = AuditLog.query.filter_by(action="match.distribute").one()
     assert '"seed"' in log.payload_json and '"form_scores"' in log.payload_json

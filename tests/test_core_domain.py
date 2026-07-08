@@ -182,6 +182,7 @@ def test_calendar_shows_upcoming_and_counts(client, player, season, open_match, 
     assert "Prihlásených: <strong>1</strong>" in html
     assert "Si prihlásený" in html
     assert "10 : 8" in html  # past result visible
+    assert "data-deadline=" in html  # live countdown target rendered
 
 
 # ---- Cancellation (kills NEW-3) --------------------------------------------------

@@ -68,6 +68,14 @@ def create_app(config_name: str | None = None) -> Flask:
             mtime = 0
         return url_for("static", filename=filename, v=mtime)
 
+    # Slovak weekday names — strftime('%A') depends on the server locale, which
+    # PythonAnywhere doesn't have set to sk_SK.
+    SK_DAYS = ["Pondelok", "Utorok", "Streda", "Štvrtok", "Piatok", "Sobota", "Nedeľa"]
+
+    @app.template_filter()
+    def skday(value) -> str:
+        return SK_DAYS[value.weekday()]
+
     # Blueprints
     from .main import bp as main_bp
     from .auth import bp as auth_bp

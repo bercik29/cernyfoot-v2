@@ -2,91 +2,113 @@
 {% block title %}Zápasy — Fodbal Černyševského{% endblock %}
 
 {% block content %}
-<section class="page">
+<section class="page-wide view-fade" style="width:100%">
     <div class="page-head">
-        <h1>Zápasy</h1>
-        {% if seasons %}
-        <form method="GET" class="season-picker">
-            <select name="season" onchange="this.form.submit()">
-                {% for s in seasons %}
-                <option value="{{ s.label }}" {% if season and s.id == season.id %}selected{% endif %}>{{ s.label }}</option>
-                {% endfor %}
-            </select>
-        </form>
+        <p class="eyebrow">Kalendár{% if season %} · <b>sezóna {{ season.label }}</b>{% endif %}</p>
+        <h1 class="section-title">Zápasy</h1>
+        {% if off_season %}
+        <p class="sub">Momentálne je prestávka medzi sezónami — zobrazená je posledná.</p>
         {% endif %}
     </div>
 
-    {% if off_season %}
-    <p class="notice">Momentálne je prestávka medzi sezónami — zobrazená je posledná sezóna.</p>
+    {% if seasons %}
+    <div class="pill-row">
+        {% for s in seasons %}
+        <a class="pill {{ 'on' if season and s.id == season.id }}" href="{{ url_for('matches.calendar', season=s.label) }}">{{ s.label }}</a>
+        {% endfor %}
+    </div>
     {% endif %}
 
+    {# ---------- upcoming match: signup board ---------- #}
     {% if upcoming %}
-    <div class="card upcoming-card">
-        <h2>Najbližší zápas</h2>
-        <p class="match-date">{{ upcoming.date|skday }} {{ upcoming.date.strftime('%d.%m.%Y') }} · {{ season.match_start.strftime('%H:%M') }}–{{ season.match_end.strftime('%H:%M') }}</p>
-        <p class="signup-count">Prihlásených: <strong>{{ signup_count }}</strong></p>
-
-        {% if current_user.is_authenticated %}
+    <div class="card board">
+        <div class="board-head">
+            <span class="board-date mono">{{ upcoming.date|skday }} {{ upcoming.date.strftime('%d.%m.%Y') }} · {{ season.match_start.strftime('%H:%M') }}–{{ season.match_end.strftime('%H:%M') }}</span>
+            <span class="live">Najbližší zápas</span>
+        </div>
+        <div class="score">
+            <div class="team-side">
+                <span class="kit g"><span class="swatch"></span>Zelení</span>
+                <span class="num open">?</span>
+            </div>
+            <span class="vs">:</span>
+            <div class="team-side right">
+                <span class="kit o"><span class="swatch"></span>Oranžoví</span>
+                <span class="num open">?</span>
+            </div>
+        </div>
+        <p class="board-foot">
+            Prihlásených <span class="mono" style="color:var(--chalk)">{{ signup_count }}</span>
             {% if signup_open %}
+                · prihlasovanie do {{ signup_deadline.strftime('%d.%m. %H:%M') }}
+                <span class="countdown mono" data-deadline="{{ signup_deadline.isoformat() }}"></span>
+            {% else %}
+                · ⏱ prihlasovanie je uzavreté{% if signed_up %} — si na súpiske{% endif %}
+            {% endif %}
+        </p>
+        <div class="board-actions">
+            {% if current_user.is_authenticated and signup_open %}
                 {% if signed_up %}
-                <p class="you-are-in">✅ Si prihlásený</p>
+                <span class="you-are-in">✔ Si prihlásený</span>
                 <form method="POST" action="{{ url_for('matches.signout', match_id=upcoming.id) }}" class="inline-form">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                    <button type="submit" class="btn btn-ghost">Odhlásiť sa zo zápasu</button>
+                    <button type="submit" class="btn btn-ghost">Odhlásiť sa</button>
                 </form>
                 {% else %}
                 <form method="POST" action="{{ url_for('matches.signup', match_id=upcoming.id) }}" class="inline-form">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                    <button type="submit" class="btn btn-primary">Prihlásiť sa na zápas</button>
+                    <button type="submit" class="btn btn-fill">Prihlásiť sa na zápas</button>
                 </form>
                 {% endif %}
-                <p class="deadline-note">Prihlasovanie do {{ signup_deadline.strftime('%d.%m. %H:%M') }}
-                    <span class="countdown" data-deadline="{{ signup_deadline.isoformat() }}"></span></p>
-            {% else %}
-                <p class="deadline-note">⏱ Prihlasovanie je uzavreté{% if signed_up %} — si na súpiske ✅{% endif %}</p>
+            {% elif not current_user.is_authenticated %}
+                <a class="btn btn-fill" href="{{ url_for('auth.login') }}">Prihlás sa, ak chceš hrať</a>
             {% endif %}
-        {% else %}
-            <p class="deadline-note"><a href="{{ url_for('auth.login') }}">Prihlás sa</a>, ak chceš hrať.</p>
-        {% endif %}
-        <p><a href="{{ url_for('matches.detail', match_id=upcoming.id) }}">Detail zápasu →</a></p>
+            <a class="btn btn-ghost" href="{{ url_for('matches.detail', match_id=upcoming.id) }}">Detail zápasu →</a>
+        </div>
     </div>
     {% elif season %}
     <p class="notice">V tejto sezóne už nie je naplánovaný žiadny ďalší zápas.</p>
     {% endif %}
 
+    {# ---------- future matches ---------- #}
     {% if future_matches %}
-    <h2>Ďalšie zápasy</h2>
-    <ul class="match-list">
+    <p class="eyebrow" style="margin-top:28px">Ďalšie termíny</p>
+    <div class="match-list">
         {% for m in future_matches %}
-        <li>
-            <a href="{{ url_for('matches.detail', match_id=m.id) }}">{{ m.date.strftime('%d.%m.%Y') }}</a>
-            {% if m.status.value == 'cancelled' %}<span class="tag tag-cancelled">Zrušený</span>{% endif %}
-        </li>
+        <a class="match {{ 'off' if m.status.value == 'cancelled' }}" href="{{ url_for('matches.detail', match_id=m.id) }}">
+            <div class="m-day"><b>{{ m.date.strftime('%d.%m.') }}</b>{{ m.date.strftime('%Y') }}</div>
+            {% if m.status.value == 'cancelled' %}
+                <div class="m-none">Nehrá sa</div>
+                <span class="m-tag off">Zrušené</span>
+            {% else %}
+                <div class="m-none">{{ m.date|skday }}</div>
+                <span class="m-tag played">Naplánovaný</span>
+            {% endif %}
+        </a>
         {% endfor %}
-    </ul>
+    </div>
     {% endif %}
 
+    {# ---------- past matches: scoreboard rows ---------- #}
     {% if past_matches %}
-    <h2>Odohrané zápasy</h2>
-    <table class="table">
-        <thead><tr><th>Dátum</th><th>Výsledok</th></tr></thead>
-        <tbody>
-            {% for m in past_matches %}
-            <tr>
-                <td><a href="{{ url_for('matches.detail', match_id=m.id) }}">{{ m.date.strftime('%d.%m.%Y') }}</a></td>
-                <td>
-                    {% if m.status.value == 'cancelled' %}
-                        <span class="tag tag-cancelled">Nehralo sa</span>
-                    {% elif m.has_result %}
-                        <span class="score"><span class="dot dot-green"></span>{{ m.green_score }} : {{ m.orange_score }}<span class="dot dot-orange"></span></span>
-                    {% else %}
-                        <span class="tag">bez výsledku</span>
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <p class="eyebrow" style="margin-top:28px">Odohrané</p>
+    <div class="match-list">
+        {% for m in past_matches %}
+        <a class="match {{ 'off' if m.status.value == 'cancelled' }}" href="{{ url_for('matches.detail', match_id=m.id) }}">
+            <div class="m-day"><b>{{ m.date.strftime('%d.%m.') }}</b>{{ m.date.strftime('%Y') }}</div>
+            {% if m.status.value == 'cancelled' %}
+                <div class="m-none">Nehralo sa</div>
+                <span class="m-tag off">Zrušené</span>
+            {% elif m.has_result %}
+                <div class="m-score"><span class="g">{{ m.green_score }}</span><span class="sep">:</span><span class="o">{{ m.orange_score }}</span></div>
+                <span class="arrow">→</span>
+            {% else %}
+                <div class="m-none">Bez výsledku</div>
+                <span class="m-tag off">?</span>
+            {% endif %}
+        </a>
+        {% endfor %}
+    </div>
     {% endif %}
 </section>
 

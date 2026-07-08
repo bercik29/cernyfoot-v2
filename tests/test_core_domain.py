@@ -179,9 +179,10 @@ def test_calendar_shows_upcoming_and_counts(client, player, season, open_match, 
     client.post(f"/match/{open_match.id}/signup")
     html = client.get("/calendar").get_data(as_text=True)
     assert "Najbližší zápas" in html
-    assert "Prihlásených: <strong>1</strong>" in html
+    assert "Prihlásených" in html and ">1</span>" in html
     assert "Si prihlásený" in html
-    assert "10 : 8" in html  # past result visible
+    # Past result renders as a scoreboard row (green and orange spans).
+    assert '<span class="g">10</span>' in html and '<span class="o">8</span>' in html
     assert "data-deadline=" in html  # live countdown target rendered
 
 
@@ -195,7 +196,7 @@ def test_cancel_effective_immediately(client, admin, player, season, open_match)
 
     # Immediately reflected on the calendar (no restart, no cache).
     html = client.get("/calendar").get_data(as_text=True)
-    assert "Zrušený" in html or "Nehralo sa" in html
+    assert "Zrušené" in html or "Nehralo sa" in html
 
     # And signup is refused.
     login(client, "hrac")

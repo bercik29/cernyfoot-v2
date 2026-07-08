@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}500 — Chyba{% endblock %}
+{% block content %}
+<section class="hero">
+    <h1>500</h1>
+    <p class="tagline">Niečo sa pokazilo. Skúste to znova neskôr.</p>
+    <p><a href="{{ url_for('main.index') }}">Späť na úvod</a></p>
+</section>
+{% endblock %}

@@ -1,0 +1,38 @@
+/* Phase 0 placeholder styling. The real mobile-first design system lands in the
+   frontend phase (CSS custom properties, components, charts). */
+:root {
+    --green: #2e9e5b;
+    --orange: #e8843c;
+    --ink: #1c2321;
+    --paper: #f7f8f7;
+}
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.container { flex: 1; display: grid; place-items: center; padding: 2rem; }
+.hero { text-align: center; max-width: 32rem; }
+.hero h1 {
+    margin: 0 0 .5rem;
+    font-size: clamp(2rem, 6vw, 3rem);
+    background: linear-gradient(90deg, var(--green), var(--orange));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+.tagline { color: #5a6560; margin: 0 0 1.5rem; }
+.scaffold-note {
+    display: inline-block;
+    padding: .75rem 1.25rem;
+    border: 1px dashed var(--orange);
+    border-radius: .75rem;
+    background: #fff;
+}
+.footer { text-align: center; padding: 1rem; color: #8a938f; font-size: .85rem; }
+a { color: var(--green); }

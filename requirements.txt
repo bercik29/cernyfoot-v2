@@ -1,0 +1,21 @@
+# Web framework
+Flask>=3.0,<4.0
+Flask-SQLAlchemy>=3.1,<4.0
+Flask-Migrate>=4.0,<5.0
+Flask-Login>=0.6,<0.7
+Flask-WTF>=1.2,<2.0
+Flask-Limiter>=3.5,<4.0
+
+# ORM / DB
+SQLAlchemy>=2.0,<3.0
+
+# Security
+argon2-cffi>=23.1
+
+# Config / utils
+python-dotenv>=1.0
+email-validator>=2.1
+tzdata>=2024.1
+
+# Testing
+pytest>=8.0

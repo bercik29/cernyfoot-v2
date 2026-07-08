@@ -2,25 +2,86 @@
 {% block title %}Fodbal Černyševského{% endblock %}
 
 {% block content %}
-<section class="hero">
-    <h1>⚽ Fodbal Černyševského</h1>
-    <p class="tagline">prihlasovačka pre zeleno-oranžových</p>
+<section class="page-wide hero view-fade" style="width:100%">
+    <p class="eyebrow">Štvrtky 19:00 · Bratislava{% if season %} · <b>sezóna {{ season.label }}</b>{% endif %}</p>
+    <h1 class="wordmark">Zeleno<br>oranžoví</h1>
+    {% if s %}
+        {% set duel_name, gw, ow, dr = s.top_scoring_team %}
+        <p class="hero-tag">Prihlasovačka a výsledková tabuľa pre náš štvrtkový futbal.
+            {% if gw > ow %}<b>Zelení vedú rivalitu {{ gw }}–{{ ow }}</b> — no na body je to hlava-nehlava.
+            {% elif ow > gw %}<b>Oranžoví vedú rivalitu {{ ow }}–{{ gw }}</b> — no na body je to hlava-nehlava.
+            {% else %}<b>Rivalita je vyrovnaná {{ gw }}–{{ ow }}</b> — rozhodne sa na ihrisku.{% endif %}
+        </p>
+    {% else %}
+        <p class="hero-tag">Prihlasovačka a výsledková tabuľa pre náš štvrtkový futbal.</p>
+    {% endif %}
 
     {% if upcoming %}
-    <div class="card upcoming-card hero-card">
-        <h2>Najbližší zápas</h2>
-        <p class="match-date">{{ upcoming.date.strftime('%d.%m.%Y') }}</p>
-        <p class="signup-count">Prihlásených: <strong>{{ signup_count }}</strong></p>
-        <p><a class="btn btn-primary" href="{{ url_for('matches.detail', match_id=upcoming.id) }}">Detail zápasu →</a></p>
+    <div class="match-list" style="margin-top:34px">
+        <a class="match" href="{{ url_for('matches.detail', match_id=upcoming.id) }}">
+            <div class="m-day"><b>{{ upcoming.date.strftime('%d.%m.') }}</b>{{ upcoming.date.strftime('%Y') }}</div>
+            <div class="m-none">Najbližší zápas · prihlásených <span class="mono" style="color:var(--chalk)">{{ signup_count }}</span></div>
+            <span class="m-tag next">Najbližší</span>
+        </a>
     </div>
     {% endif %}
 
-    <p class="hero-actions">
-        <a class="btn btn-primary" href="{{ url_for('matches.calendar') }}">Zápasy</a>
-        <a class="btn btn-ghost" href="{{ url_for('stats.global_stats') }}">Štatistiky</a>
-        {% if not current_user.is_authenticated %}
-        <a class="btn btn-ghost" href="{{ url_for('auth.register') }}">Registrácia</a>
-        {% endif %}
-    </p>
+    {% if s and last_match %}
+    <div class="hero-grid">
+        {# --- last match scoreboard --- #}
+        {% set g, o = last_match.green_score, last_match.orange_score %}
+        <div class="card board">
+            <div class="board-head">
+                <span class="board-date mono">{{ last_match.date.strftime('%d.%m.%Y') }} · posledný zápas</span>
+                <span class="live">Odohraný</span>
+            </div>
+            <div class="score">
+                <div class="team-side">
+                    <span class="kit g"><span class="swatch"></span>Zelení</span>
+                    <span class="num {{ 'win' if g >= o else 'lose' }}">{{ g }}</span>
+                </div>
+                <span class="vs">:</span>
+                <div class="team-side right">
+                    <span class="kit o"><span class="swatch"></span>Oranžoví</span>
+                    <span class="num {{ 'win' if o >= g else 'lose' }}">{{ o }}</span>
+                </div>
+            </div>
+            <p class="board-foot">
+                {% if g > o %}Zelení berú večer{% elif o > g %}Oranžoví berú večer{% else %}Remíza — delia si večer{% endif %}
+                · <a href="{{ url_for('matches.detail', match_id=last_match.id) }}">zostavy →</a>
+            </p>
+        </div>
+
+        {# --- head to head tension --- #}
+        {% set played = s.total_matches_played[0] %}
+        <div class="card h2h">
+            <div class="card-lbl">Zelení vs Oranžoví — celá sezóna</div>
+            <div class="h2h-nums">
+                <div class="side"><span class="big g mono">{{ gw }}</span><span class="cap">Zelení</span></div>
+                <div class="side c"><span class="big mid mono">{{ dr }}</span><span class="cap">{{ 'remíza' if dr == 1 else 'remíz' }}</span></div>
+                <div class="side r"><span class="big o mono">{{ ow }}</span><span class="cap">Oranžoví</span></div>
+            </div>
+            {% set total = (gw + ow + dr) if (gw + ow + dr) > 0 else 1 %}
+            <div class="tension">
+                <span class="g" style="width: {{ 100 * gw / total }}%"></span>
+                <span class="d" style="width: {{ 100 * dr / total }}%"></span>
+                <span class="o" style="width: {{ 100 * ow / total }}%"></span>
+            </div>
+            <div class="h2h-legend">
+                <span>{{ (100 * gw / total) | round | int }} % výhier</span>
+                <span>{{ played }} zápasov</span>
+                <span>{{ (100 * ow / total) | round | int }} % výhier</span>
+            </div>
+        </div>
+    </div>
+
+    {# --- quick tiles --- #}
+    <div class="tiles">
+        <div class="tile"><div class="t-num">{{ s.total_goals_scored }}</div><div class="t-lbl">gólov spolu</div></div>
+        <div class="tile"><div class="t-num">{{ '%.1f'|format(s.average_goals_per_match) }}</div><div class="t-lbl">gólov / zápas</div></div>
+        <div class="tile"><div class="t-num">{{ played }}</div><div class="t-lbl">odohraných</div></div>
+        <div class="tile"><div class="t-num">{{ '%.1f'|format(s.average_players_per_match) }}</div><div class="t-lbl">hráčov / zápas</div></div>
+    </div>
+    {% endif %}
 </section>
 {% endblock %}

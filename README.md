@@ -49,7 +49,8 @@ cernyfoot-v2/
 ## Build status
 
 - [x] **Phase 0 — Foundation**: app factory, config, schema, migrations, tests
-- [ ] Phase 1 — CSV→DB migration
+- [x] **Phase 1 — CSV→DB migration**: `scripts/migrate_csv.py` (D1/D2 applied, reconciliation
+      report in `scripts/output/`), golden master via `scripts/capture_golden_master.py`
 - [ ] Phase 2 — Auth & authorization
 - [ ] Phase 3 — Core domain (seasons, schedule, signup, cancellation)
 - [ ] Phase 4 — Teams & results

@@ -1,0 +1,2677 @@
+{
+ "note": "Output of the ORIGINAL statistics.py over drift-corrected (D2) data.",
+ "drift_corrected_files": [
+  "2025-01-23.csv",
+  "2025-03-06.csv"
+ ],
+ "seasons": {
+  "2024/2025": {
+   "global": {
+    "all_matches": [
+     "2024-09-19.csv",
+     "2024-10-03.csv",
+     "2024-10-17.csv",
+     "2024-10-24.csv",
+     "2024-11-07.csv",
+     "2024-11-14.csv",
+     "2024-11-21.csv",
+     "2024-11-28.csv",
+     "2024-12-05.csv",
+     "2024-12-12.csv",
+     "2024-12-19.csv",
+     "2025-01-09.csv",
+     "2025-01-16.csv",
+     "2025-01-23.csv",
+     "2025-01-30.csv",
+     "2025-02-06.csv",
+     "2025-02-13.csv",
+     "2025-02-20.csv",
+     "2025-03-06.csv",
+     "2025-03-13.csv",
+     "2025-03-20.csv",
+     "2025-03-27.csv",
+     "2025-04-10.csv",
+     "2025-04-24.csv",
+     "2025-05-15.csv",
+     "2025-05-22.csv",
+     "2025-06-05.csv",
+     "2025-06-12.csv",
+     "2025-06-19.csv"
+    ],
+    "total_matches_played": [
+     29,
+     "19.06.2025"
+    ],
+    "draws": [
+     2,
+     0.06896551724137931
+    ],
+    "total_matches_cancelled": [
+     5,
+     [
+      "2024-09-26",
+      "2024-10-10",
+      "2025-04-03",
+      "2025-05-29",
+      "2025-06-26"
+     ]
+    ],
+    "total_goals_scored": 510,
+    "average_goals_per_match": 17.586206896551722,
+    "most_frequent_players": [
+     [
+      "frido",
+      28
+     ],
+     [
+      "adam",
+      26
+     ],
+     [
+      "tomas",
+      23
+     ],
+     [
+      "roman",
+      23
+     ],
+     [
+      "tomasc",
+      20
+     ],
+     [
+      "michal",
+      19
+     ],
+     [
+      "berco",
+      18
+     ],
+     [
+      "dano",
+      18
+     ],
+     [
+      "petof",
+      16
+     ],
+     [
+      "petoch",
+      12
+     ],
+     [
+      "vladneme",
+      11
+     ],
+     [
+      "jozo",
+      10
+     ],
+     [
+      "robert",
+      8
+     ],
+     [
+      "petob",
+      6
+     ],
+     [
+      "denis",
+      3
+     ],
+     [
+      "tono",
+      1
+     ],
+     [
+      "filip",
+      1
+     ],
+     [
+      "denis K",
+      1
+     ],
+     [
+      "rudo",
+      1
+     ],
+     [
+      "robert ",
+      1
+     ],
+     [
+      "MatoP",
+      1
+     ]
+    ],
+    "top_scoring_team": [
+     "Zelení",
+     15,
+     12,
+     2
+    ],
+    "highest_scoring_match": [
+     "2024-12-19",
+     "9:19"
+    ],
+    "most_frequent_team": [
+     [
+      [
+       "frido",
+       "roman",
+       "tomasc"
+      ],
+      5
+     ]
+    ],
+    "top_3_highest_attendance": [
+     [
+      "frido",
+      28
+     ],
+     [
+      "adam",
+      26
+     ],
+     [
+      "tomas",
+      23
+     ]
+    ],
+    "top_3_lowest_attendance": [
+     [
+      "tono",
+      1
+     ],
+     [
+      "filip",
+      1
+     ],
+     [
+      "denis K",
+      1
+     ]
+    ],
+    "top_3_most_wins": [
+     [
+      "tomas",
+      14
+     ],
+     [
+      "adam",
+      13
+     ],
+     [
+      "tomasc",
+      12
+     ]
+    ],
+    "top_3_most_losses": [
+     [
+      "frido",
+      15
+     ],
+     [
+      "dano",
+      13
+     ],
+     [
+      "adam",
+      12
+     ]
+    ],
+    "top_3_longest_winning_streaks": [
+     [
+      "frido",
+      4
+     ],
+     [
+      "adam",
+      4
+     ],
+     [
+      "tomas",
+      4
+     ]
+    ],
+    "top_3_longest_losing_streaks": [
+     [
+      "frido",
+      6
+     ],
+     [
+      "adam",
+      4
+     ],
+     [
+      "dano",
+      3
+     ]
+    ],
+    "average_players_per_match": 8.517241379310345,
+    "most_frequent_number_of_players_per_match": 8,
+    "highest_number_of_players_per_match": 11,
+    "lowest_number_of_players_per_match": 7,
+    "highest_efficiency": [
+     [
+      "tono",
+      1.0
+     ],
+     [
+      "rudo",
+      1.0
+     ],
+     [
+      "robert",
+      0.625
+     ]
+    ],
+    "all_players_stats": {
+     "tomas": {
+      "games_played": 23,
+      "wins": 14,
+      "draws": 2,
+      "losses": 7,
+      "points": 44
+     },
+     "adam": {
+      "games_played": 26,
+      "wins": 13,
+      "draws": 1,
+      "losses": 12,
+      "points": 40
+     },
+     "tomasc": {
+      "games_played": 20,
+      "wins": 12,
+      "draws": 2,
+      "losses": 6,
+      "points": 38
+     },
+     "frido": {
+      "games_played": 28,
+      "wins": 11,
+      "draws": 2,
+      "losses": 15,
+      "points": 35
+     },
+     "michal": {
+      "games_played": 19,
+      "wins": 10,
+      "draws": 1,
+      "losses": 8,
+      "points": 31
+     },
+     "berco": {
+      "games_played": 18,
+      "wins": 10,
+      "draws": 1,
+      "losses": 7,
+      "points": 31
+     },
+     "roman": {
+      "games_played": 23,
+      "wins": 9,
+      "draws": 2,
+      "losses": 12,
+      "points": 29
+     },
+     "petof": {
+      "games_played": 16,
+      "wins": 7,
+      "draws": 2,
+      "losses": 7,
+      "points": 23
+     },
+     "jozo": {
+      "games_played": 10,
+      "wins": 6,
+      "draws": 0,
+      "losses": 4,
+      "points": 18
+     },
+     "robert": {
+      "games_played": 8,
+      "wins": 5,
+      "draws": 1,
+      "losses": 2,
+      "points": 16
+     },
+     "petoch": {
+      "games_played": 12,
+      "wins": 4,
+      "draws": 1,
+      "losses": 7,
+      "points": 13
+     },
+     "vladneme": {
+      "games_played": 11,
+      "wins": 4,
+      "draws": 0,
+      "losses": 7,
+      "points": 12
+     },
+     "dano": {
+      "games_played": 18,
+      "wins": 3,
+      "draws": 2,
+      "losses": 13,
+      "points": 11
+     },
+     "petob": {
+      "games_played": 6,
+      "wins": 3,
+      "draws": 0,
+      "losses": 3,
+      "points": 9
+     },
+     "tono": {
+      "games_played": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "points": 3
+     },
+     "denis": {
+      "games_played": 3,
+      "wins": 1,
+      "draws": 0,
+      "losses": 2,
+      "points": 3
+     },
+     "rudo": {
+      "games_played": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "points": 3
+     },
+     "filip": {
+      "games_played": 1,
+      "wins": 0,
+      "draws": 1,
+      "losses": 0,
+      "points": 1
+     },
+     "denis K": {
+      "games_played": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "points": 0
+     },
+     "robert ": {
+      "games_played": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "points": 0
+     },
+     "MatoP": {
+      "games_played": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "points": 0
+     }
+    }
+   },
+   "players": {
+    "berco": {
+     "total_matches_played": [
+      29,
+      "19.06.2025"
+     ],
+     "matches_played": 18,
+     "team_breakdown": [
+      8,
+      10
+     ],
+     "wins_losses": [
+      10,
+      7,
+      58.82352941176471,
+      1
+     ],
+     "average_team_score_contribution": 9.055555555555555,
+     "winning_losing_streak": [
+      6,
+      3,
+      6
+     ],
+     "pl_highest_scoring_match": [
+      "2025-04-10",
+      18
+     ],
+     "team_performance": [
+      0.75,
+      0.4
+     ],
+     "goal_differential": 19,
+     "match_attendance_rate": 0.6206896551724138,
+     "team_affinity": [
+      8,
+      10
+     ],
+     "overall_team_efficiency": [
+      0.75,
+      0.4
+     ]
+    },
+    "petof": {
+     "total_matches_played": [
+      29,
+      "19.06.2025"
+     ],
+     "matches_played": 16,
+     "team_breakdown": [
+      8,
+      8
+     ],
+     "wins_losses": [
+      7,
+      7,
+      50.0,
+      2
+     ],
+     "average_team_score_contribution": 8.5,
+     "winning_losing_streak": [
+      1,
+      2,
+      3
+     ],
+     "pl_highest_scoring_match": [
+      "2024-12-19",
+      19
+     ],
+     "team_performance": [
+      0.375,
+      0.5
+     ],
+     "goal_differential": 5,
+     "match_attendance_rate": 0.5517241379310345,
+     "team_affinity": [
+      8,
+      8
+     ],
+     "overall_team_efficiency": [
+      0.375,
+      0.5
+     ]
+    },
+    "michal": {
+     "total_matches_played": [
+      29,
+      "19.06.2025"
+     ],
+     "matches_played": 19,
+     "team_breakdown": [
+      5,
+      14
+     ],
+     "wins_losses": [
+      10,
+      8,
+      55.55555555555556,
+      1
+     ],
+     "average_team_score_contribution": 9.105263157894736,
+     "winning_losing_streak": [
+      4,
+      2,
+      4
+     ],
+     "pl_highest_scoring_match": [
+      "2025-02-20",
+      16
+     ],
+     "team_performance": [
+      0.8,
+      0.42857142857142855
+     ],
+     "goal_differential": 3,
+     "match_attendance_rate": 0.6551724137931034,
+     "team_affinity": [
+      5,
+      14
+     ],
+     "overall_team_efficiency": [
+      0.8,
+      0.42857142857142855
+     ]
+    },
+    "petob": {
+     "total_matches_played": [
+      29,
+      "19.06.2025"
+     ],
+     "matches_played": 6,
+     "team_breakdown": [
+      3,
+      3
+     ],
+     "wins_losses": [
+      3,
+      3,
+      50.0,
+      0
+     ],
+     "average_team_score_contribution": 8.5,
+     "winning_losing_streak": [
+      2,
+      3,
+      2
+     ],
+     "pl_highest_scoring_match": [
+      "2024-09-19",
+      13
+     ],
+     "team_performance": [
+      0.3333333333333333,
+      0.6666666666666666
+     ],
+     "goal_differential": 3,
+     "match_attendance_rate": 0.20689655172413793,
+     "team_affinity": [
+      3,
+      3
+     ],
+     "overall_team_efficiency": [
+      0.3333333333333333,
+      0.6666666666666666
+     ]
+    },
+    "frido": {
+     "total_matches_played": [
+      29,
+      "19.06.2025"
+     ],
+     "matches_played": 28,
+     "team_breakdown": [
+      9,
+      19
+     ],
+     "wins_losses": [
+      11,
+      15,
+      42.30769230769231,
+      2
+     ],
+     "average_team_score_contribution": 7.892857142857143,
+     "winning_losing_streak": [
+      4,
+      6,
+      4
+     ],
+     "pl_highest_scoring_match": [
+      "2025-02-06",
+      15
+     ],
+     "team_performance": [
+      0.4444444444444444,
+      0.3684210526315789
+     ],
+     "goal_differential": -40,
+     "match_attendance_rate": 0.9655172413793104,
+     "team_affinity": [
+      9,
+      19
+     ],
+     "overall_team_efficiency": [
+      0.4444444444444444,
+      0.3684210526315789
+     ]
+    },
+    "tomas": {
+     "total_matches_played": [
+      29,
+      "19.06.2025"
+     ],
+     "matches_played": 23,
+     "team_breakdown": [
+      13,
+      10
+     ],
+     "wins_losses": [
+      14,
+      7,
+      66.66666666666666,
+      2
+     ],
+     "average_team_score_contribution": 10.695652173913043,
+     "winning_losing_streak": [
+      4,
+      2,
+      8
+     ],
+     "pl_highest_scoring_match": [
+      "2024-12-19",
+      19
+     ],
+     "team_performance": [
+      0.6923076923076923,
+      0.5
+     ],
+     "goal_differential": 49,
+     "match_attendance_rate": 0.7931034482758621,
+     "team_affinity": [
+      13,
+      10
+     ],
+     "overall_team_efficiency": [
+      0.6923076923076923,
+      0.5
+     ]
+    },
+    "adam": {
+     "total_matches_played": [
+      29,
+      "19.06.2025"
+     ],
+     "matches_played": 26,
+     "team_breakdown": [
+      17,
+      9
+     ],
+     "wins_losses": [
+      13,
+      12,
+      52.0,
+      1
+     ],
+     "average_team_score_contribution": 8.76923076923077,
+     "winning_losing_streak": [
+      4,
+      4,
+      4
+     ],
+     "pl_highest_scoring_match": [
+      "2025-06-05",
+      15
+     ],
+     "team_performance": [
+      0.5294117647058824,
+      0.4444444444444444
+     ],
+     "goal_differential": -4,
+     "match_attendance_rate": 0.896551724137931,
+     "team_affinity": [
+      17,
+      9
+     ],
+     "overall_team_efficiency": [
+      0.5294117647058824,
+      0.4444444444444444
+     ]
+    },
+    "jozo": {
+     "total_matches_played": [
+      29,
+      "19.06.2025"
+     ],
+     "matches_played": 10,
+     "team_breakdown": [
+      1,
+      9
+     ],
+     "wins_losses": [
+      6,
+      4,
+      60.0,
+      0
+     ],
+     "average_team_score_contribution": 8.5,
+     "winning_losing_streak": [
+      3,
+      3,
+      3
+     ],
+     "pl_highest_scoring_match": [
+      "2024-09-19",
+      12
+     ],
+     "team_performance": [
+      1.0,
+      0.5555555555555556
+     ],
+     "goal_differential": -2,
+     "match_attendance_rate": 0.3448275862068966,
+     "team_affinity": [
+      1,
+      9
+     ],
+     "overall_team_efficiency": [
+      1.0,
+      0.5555555555555556
+     ]
+    },
+    "roman": {
+     "total_matches_played": [
+      29,
+      "19.06.2025"
+     ],
+     "matches_played": 23,
+     "team_breakdown": [
+      12,
+      11
+     ],
+     "wins_losses": [
+      9,
+      12,
+      42.857142857142854,
+      2
+     ],
+     "average_team_score_contribution": 7.913043478260869,
+     "winning_losing_streak": [
+      2,
+      4,
+      3
+     ],
+     "pl_highest_scoring_match": [
+      "2025-05-15",
+      13
+     ],
+     "team_performance": [
+      0.5,
+      0.2727272727272727
+     ],
+     "goal_differential": -19,
+     "match_attendance_rate": 0.7931034482758621,
+     "team_affinity": [
+      12,
+      11
+     ],
+     "overall_team_efficiency": [
+      0.5,
+      0.2727272727272727
+     ]
+    },
+    "dano": {
+     "total_matches_played": [
+      29,
+      "19.06.2025"
+     ],
+     "matches_played": 18,
+     "team_breakdown": [
+      7,
+      11
+     ],
+     "wins_losses": [
+      3,
+      13,
+      18.75,
+      2
+     ],
+     "average_team_score_contribution": 8.38888888888889,
+     "winning_losing_streak": [
+      1,
+      5,
+      1
+     ],
+     "pl_highest_scoring_match": [
+      "2024-12-19",
+      19
+     ],
+     "team_performance": [
+      0.14285714285714285,
+      0.18181818181818182
+     ],
+     "goal_differential": -23,
+     "match_attendance_rate": 0.6206896551724138,
+     "team_affinity": [
+      7,
+      11
+     ],
+     "overall_team_efficiency": [
+      0.14285714285714285,
+      0.18181818181818182
+     ]
+    },
+    "tono": {
+     "total_matches_played": [
+      29,
+      "19.06.2025"
+     ],
+     "matches_played": 1,
+     "team_breakdown": [
+      1,
+      0
+     ],
+     "wins_losses": [
+      1,
+      0,
+      100.0,
+      0
+     ],
+     "average_team_score_contribution": 13.0,
+     "winning_losing_streak": [
+      1,
+      0,
+      1
+     ],
+     "pl_highest_scoring_match": [
+      "2024-09-19",
+      13
+     ],
+     "team_performance": [
+      1.0,
+      0
+     ],
+     "goal_differential": 1,
+     "match_attendance_rate": 0.034482758620689655,
+     "team_affinity": [
+      1,
+      0
+     ],
+     "overall_team_efficiency": [
+      1.0,
+      0
+     ]
+    },
+    "filip": {
+     "total_matches_played": [
+      29,
+      "19.06.2025"
+     ],
+     "matches_played": 1,
+     "team_breakdown": [
+      0,
+      1
+     ],
+     "wins_losses": [
+      0,
+      0,
+      0,
+      1
+     ],
+     "average_team_score_contribution": 11.0,
+     "winning_losing_streak": [
+      0,
+      0,
+      1
+     ],
+     "pl_highest_scoring_match": [
+      "2024-10-17",
+      11
+     ],
+     "team_performance": [
+      0,
+      0.0
+     ],
+     "goal_differential": 0,
+     "match_attendance_rate": 0.034482758620689655,
+     "team_affinity": [
+      0,
+      1
+     ],
+     "overall_team_efficiency": [
+      0,
+      0.0
+     ]
+    },
+    "petoch": {
+     "total_matches_played": [
+      29,
+      "19.06.2025"
+     ],
+     "matches_played": 12,
+     "team_breakdown": [
+      6,
+      6
+     ],
+     "wins_losses": [
+      4,
+      7,
+      36.36363636363637,
+      1
+     ],
+     "average_team_score_contribution": 8.916666666666666,
+     "winning_losing_streak": [
+      3,
+      5,
+      3
+     ],
+     "pl_highest_scoring_match": [
+      "2024-10-17",
+      11
+     ],
+     "team_performance": [
+      0.5,
+      0.16666666666666666
+     ],
+     "goal_differential": -8,
+     "match_attendance_rate": 0.41379310344827586,
+     "team_affinity": [
+      6,
+      6
+     ],
+     "overall_team_efficiency": [
+      0.5,
+      0.16666666666666666
+     ]
+    },
+    "tomasc": {
+     "total_matches_played": [
+      29,
+      "19.06.2025"
+     ],
+     "matches_played": 20,
+     "team_breakdown": [
+      14,
+      6
+     ],
+     "wins_losses": [
+      12,
+      6,
+      66.66666666666666,
+      2
+     ],
+     "average_team_score_contribution": 9.85,
+     "winning_losing_streak": [
+      5,
+      2,
+      5
+     ],
+     "pl_highest_scoring_match": [
+      "2024-12-19",
+      19
+     ],
+     "team_performance": [
+      0.6428571428571429,
+      0.5
+     ],
+     "goal_differential": 42,
+     "match_attendance_rate": 0.6896551724137931,
+     "team_affinity": [
+      14,
+      6
+     ],
+     "overall_team_efficiency": [
+      0.6428571428571429,
+      0.5
+     ]
+    },
+    "vladneme": {
+     "total_matches_played": [
+      29,
+      "19.06.2025"
+     ],
+     "matches_played": 11,
+     "team_breakdown": [
+      8,
+      3
+     ],
+     "wins_losses": [
+      4,
+      7,
+      36.36363636363637,
+      0
+     ],
+     "average_team_score_contribution": 7.7272727272727275,
+     "winning_losing_streak": [
+      1,
+      3,
+      1
+     ],
+     "pl_highest_scoring_match": [
+      "2025-06-05",
+      15
+     ],
+     "team_performance": [
+      0.375,
+      0.3333333333333333
+     ],
+     "goal_differential": -17,
+     "match_attendance_rate": 0.3793103448275862,
+     "team_affinity": [
+      8,
+      3
+     ],
+     "overall_team_efficiency": [
+      0.375,
+      0.3333333333333333
+     ]
+    },
+    "denis": {
+     "total_matches_played": [
+      29,
+      "19.06.2025"
+     ],
+     "matches_played": 3,
+     "team_breakdown": [
+      2,
+      1
+     ],
+     "wins_losses": [
+      1,
+      2,
+      33.33333333333333,
+      0
+     ],
+     "average_team_score_contribution": 7.0,
+     "winning_losing_streak": [
+      1,
+      1,
+      1
+     ],
+     "pl_highest_scoring_match": [
+      "2024-11-07",
+      9
+     ],
+     "team_performance": [
+      0.5,
+      0.0
+     ],
+     "goal_differential": -4,
+     "match_attendance_rate": 0.10344827586206896,
+     "team_affinity": [
+      2,
+      1
+     ],
+     "overall_team_efficiency": [
+      0.5,
+      0.0
+     ]
+    },
+    "robert": {
+     "total_matches_played": [
+      29,
+      "19.06.2025"
+     ],
+     "matches_played": 8,
+     "team_breakdown": [
+      3,
+      5
+     ],
+     "wins_losses": [
+      5,
+      2,
+      71.42857142857143,
+      1
+     ],
+     "average_team_score_contribution": 9.25,
+     "winning_losing_streak": [
+      3,
+      1,
+      5
+     ],
+     "pl_highest_scoring_match": [
+      "2025-02-20",
+      16
+     ],
+     "team_performance": [
+      0.6666666666666666,
+      0.6
+     ],
+     "goal_differential": 8,
+     "match_attendance_rate": 0.27586206896551724,
+     "team_affinity": [
+      3,
+      5
+     ],
+     "overall_team_efficiency": [
+      0.6666666666666666,
+      0.6
+     ]
+    },
+    "risod": {
+     "total_matches_played": [
+      29,
+      "19.06.2025"
+     ],
+     "matches_played": 0,
+     "team_breakdown": [
+      0,
+      0
+     ],
+     "wins_losses": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "average_team_score_contribution": 0,
+     "winning_losing_streak": [
+      0,
+      0,
+      0
+     ],
+     "pl_highest_scoring_match": [
+      null,
+      -1
+     ],
+     "team_performance": [
+      0,
+      0
+     ],
+     "goal_differential": 0,
+     "match_attendance_rate": 0.0,
+     "team_affinity": [
+      0,
+      0
+     ],
+     "overall_team_efficiency": [
+      0,
+      0
+     ]
+    },
+    "rado": {
+     "total_matches_played": [
+      29,
+      "19.06.2025"
+     ],
+     "matches_played": 0,
+     "team_breakdown": [
+      0,
+      0
+     ],
+     "wins_losses": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "average_team_score_contribution": 0,
+     "winning_losing_streak": [
+      0,
+      0,
+      0
+     ],
+     "pl_highest_scoring_match": [
+      null,
+      -1
+     ],
+     "team_performance": [
+      0,
+      0
+     ],
+     "goal_differential": 0,
+     "match_attendance_rate": 0.0,
+     "team_affinity": [
+      0,
+      0
+     ],
+     "overall_team_efficiency": [
+      0,
+      0
+     ]
+    },
+    "ondrej": {
+     "total_matches_played": [
+      29,
+      "19.06.2025"
+     ],
+     "matches_played": 0,
+     "team_breakdown": [
+      0,
+      0
+     ],
+     "wins_losses": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "average_team_score_contribution": 0,
+     "winning_losing_streak": [
+      0,
+      0,
+      0
+     ],
+     "pl_highest_scoring_match": [
+      null,
+      -1
+     ],
+     "team_performance": [
+      0,
+      0
+     ],
+     "goal_differential": 0,
+     "match_attendance_rate": 0.0,
+     "team_affinity": [
+      0,
+      0
+     ],
+     "overall_team_efficiency": [
+      0,
+      0
+     ]
+    },
+    "janok": {
+     "total_matches_played": [
+      29,
+      "19.06.2025"
+     ],
+     "matches_played": 0,
+     "team_breakdown": [
+      0,
+      0
+     ],
+     "wins_losses": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "average_team_score_contribution": 0,
+     "winning_losing_streak": [
+      0,
+      0,
+      0
+     ],
+     "pl_highest_scoring_match": [
+      null,
+      -1
+     ],
+     "team_performance": [
+      0,
+      0
+     ],
+     "goal_differential": 0,
+     "match_attendance_rate": 0.0,
+     "team_affinity": [
+      0,
+      0
+     ],
+     "overall_team_efficiency": [
+      0,
+      0
+     ]
+    },
+    "marcel": {
+     "total_matches_played": [
+      29,
+      "19.06.2025"
+     ],
+     "matches_played": 0,
+     "team_breakdown": [
+      0,
+      0
+     ],
+     "wins_losses": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "average_team_score_contribution": 0,
+     "winning_losing_streak": [
+      0,
+      0,
+      0
+     ],
+     "pl_highest_scoring_match": [
+      null,
+      -1
+     ],
+     "team_performance": [
+      0,
+      0
+     ],
+     "goal_differential": 0,
+     "match_attendance_rate": 0.0,
+     "team_affinity": [
+      0,
+      0
+     ],
+     "overall_team_efficiency": [
+      0,
+      0
+     ]
+    }
+   }
+  },
+  "2025/2026": {
+   "global": {
+    "all_matches": [
+     "2025-09-18.csv",
+     "2025-09-25.csv",
+     "2025-10-02.csv",
+     "2025-10-09.csv",
+     "2025-10-16.csv",
+     "2025-10-23.csv",
+     "2025-11-13.csv",
+     "2025-11-20.csv",
+     "2025-11-27.csv",
+     "2025-12-18.csv",
+     "2026-01-08.csv",
+     "2026-01-15.csv",
+     "2026-01-22.csv",
+     "2026-01-29.csv",
+     "2026-02-05.csv",
+     "2026-02-19.csv",
+     "2026-02-26.csv",
+     "2026-03-05.csv",
+     "2026-03-12.csv",
+     "2026-03-26.csv",
+     "2026-04-09.csv",
+     "2026-05-07.csv",
+     "2026-05-14.csv",
+     "2026-05-21.csv",
+     "2026-06-04.csv",
+     "2026-06-25.csv"
+    ],
+    "total_matches_played": [
+     26,
+     "25.06.2026"
+    ],
+    "draws": [
+     1,
+     0.038461538461538464
+    ],
+    "total_matches_cancelled": [
+     11,
+     [
+      "2025-11-06",
+      "2025-12-04",
+      "2025-12-11",
+      "2026-02-12",
+      "2026-03-19",
+      "2026-04-16",
+      "2026-04-23",
+      "2026-04-30",
+      "2026-05-28",
+      "2026-06-11",
+      "2026-06-18"
+     ]
+    ],
+    "total_goals_scored": 528,
+    "average_goals_per_match": 20.307692307692307,
+    "most_frequent_players": [
+     [
+      "roman",
+      24
+     ],
+     [
+      "adam",
+      22
+     ],
+     [
+      "tomas",
+      21
+     ],
+     [
+      "frido",
+      21
+     ],
+     [
+      "tomasc",
+      20
+     ],
+     [
+      "risod",
+      16
+     ],
+     [
+      "michal",
+      16
+     ],
+     [
+      "petob",
+      14
+     ],
+     [
+      "vladneme",
+      11
+     ],
+     [
+      "ondrej",
+      10
+     ],
+     [
+      "petoch",
+      7
+     ],
+     [
+      "berco",
+      5
+     ],
+     [
+      "Marek",
+      2
+     ],
+     [
+      "rado",
+      2
+     ],
+     [
+      "janok",
+      2
+     ],
+     [
+      "marcel",
+      2
+     ],
+     [
+      "robert",
+      2
+     ],
+     [
+      "petof",
+      1
+     ],
+     [
+      "Jarek",
+      1
+     ],
+     [
+      "Michal (Rado)",
+      1
+     ],
+     [
+      "Riso2",
+      1
+     ],
+     [
+      "Daniel H",
+      1
+     ],
+     [
+      "Michal H",
+      1
+     ],
+     [
+      "ondrej+1",
+      1
+     ]
+    ],
+    "top_scoring_team": [
+     "Zelení",
+     15,
+     9,
+     1
+    ],
+    "highest_scoring_match": [
+     "2026-02-05",
+     "17:15"
+    ],
+    "most_frequent_team": [
+     [
+      [
+       "adam",
+       "roman",
+       "tomas"
+      ],
+      7
+     ]
+    ],
+    "top_3_highest_attendance": [
+     [
+      "roman",
+      24
+     ],
+     [
+      "adam",
+      22
+     ],
+     [
+      "frido",
+      21
+     ]
+    ],
+    "top_3_lowest_attendance": [
+     [
+      "petof",
+      1
+     ],
+     [
+      "Jarek",
+      1
+     ],
+     [
+      "Michal (Rado)",
+      1
+     ]
+    ],
+    "top_3_most_wins": [
+     [
+      "tomas",
+      14
+     ],
+     [
+      "tomasc",
+      14
+     ],
+     [
+      "adam",
+      12
+     ]
+    ],
+    "top_3_most_losses": [
+     [
+      "roman",
+      14
+     ],
+     [
+      "frido",
+      13
+     ],
+     [
+      "michal",
+      12
+     ]
+    ],
+    "top_3_longest_winning_streaks": [
+     [
+      "tomas",
+      6
+     ],
+     [
+      "frido",
+      4
+     ],
+     [
+      "adam",
+      3
+     ]
+    ],
+    "top_3_longest_losing_streaks": [
+     [
+      "michal",
+      6
+     ],
+     [
+      "roman",
+      4
+     ],
+     [
+      "frido",
+      3
+     ]
+    ],
+    "average_players_per_match": 7.846153846153846,
+    "most_frequent_number_of_players_per_match": 8,
+    "highest_number_of_players_per_match": 10,
+    "lowest_number_of_players_per_match": 0,
+    "highest_efficiency": [
+     [
+      "Michal (Rado)",
+      1.0
+     ],
+     [
+      "Riso2",
+      1.0
+     ],
+     [
+      "Daniel H",
+      1.0
+     ]
+    ],
+    "all_players_stats": {
+     "tomas": {
+      "games_played": 21,
+      "wins": 14,
+      "draws": 1,
+      "losses": 6,
+      "points": 43
+     },
+     "tomasc": {
+      "games_played": 20,
+      "wins": 14,
+      "draws": 1,
+      "losses": 5,
+      "points": 43
+     },
+     "adam": {
+      "games_played": 22,
+      "wins": 12,
+      "draws": 1,
+      "losses": 9,
+      "points": 37
+     },
+     "risod": {
+      "games_played": 16,
+      "wins": 9,
+      "draws": 1,
+      "losses": 6,
+      "points": 28
+     },
+     "roman": {
+      "games_played": 24,
+      "wins": 9,
+      "draws": 1,
+      "losses": 14,
+      "points": 28
+     },
+     "frido": {
+      "games_played": 21,
+      "wins": 8,
+      "draws": 0,
+      "losses": 13,
+      "points": 24
+     },
+     "ondrej": {
+      "games_played": 10,
+      "wins": 7,
+      "draws": 1,
+      "losses": 2,
+      "points": 22
+     },
+     "vladneme": {
+      "games_played": 11,
+      "wins": 7,
+      "draws": 0,
+      "losses": 4,
+      "points": 21
+     },
+     "petob": {
+      "games_played": 14,
+      "wins": 5,
+      "draws": 0,
+      "losses": 9,
+      "points": 15
+     },
+     "petoch": {
+      "games_played": 7,
+      "wins": 4,
+      "draws": 0,
+      "losses": 3,
+      "points": 12
+     },
+     "michal": {
+      "games_played": 16,
+      "wins": 3,
+      "draws": 1,
+      "losses": 12,
+      "points": 10
+     },
+     "berco": {
+      "games_played": 5,
+      "wins": 2,
+      "draws": 0,
+      "losses": 3,
+      "points": 6
+     },
+     "marcel": {
+      "games_played": 2,
+      "wins": 1,
+      "draws": 1,
+      "losses": 0,
+      "points": 4
+     },
+     "Marek": {
+      "games_played": 2,
+      "wins": 1,
+      "draws": 0,
+      "losses": 1,
+      "points": 3
+     },
+     "Michal (Rado)": {
+      "games_played": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "points": 3
+     },
+     "Riso2": {
+      "games_played": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "points": 3
+     },
+     "janok": {
+      "games_played": 2,
+      "wins": 1,
+      "draws": 0,
+      "losses": 1,
+      "points": 3
+     },
+     "Daniel H": {
+      "games_played": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "points": 3
+     },
+     "ondrej+1": {
+      "games_played": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "points": 3
+     },
+     "petof": {
+      "games_played": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "points": 0
+     },
+     "Jarek": {
+      "games_played": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "points": 0
+     },
+     "rado": {
+      "games_played": 2,
+      "wins": 0,
+      "draws": 0,
+      "losses": 2,
+      "points": 0
+     },
+     "Michal H": {
+      "games_played": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "points": 0
+     },
+     "robert": {
+      "games_played": 2,
+      "wins": 0,
+      "draws": 0,
+      "losses": 2,
+      "points": 0
+     }
+    }
+   },
+   "players": {
+    "berco": {
+     "total_matches_played": [
+      26,
+      "25.06.2026"
+     ],
+     "matches_played": 5,
+     "team_breakdown": [
+      4,
+      1
+     ],
+     "wins_losses": [
+      2,
+      3,
+      40.0,
+      0
+     ],
+     "average_team_score_contribution": 8.6,
+     "winning_losing_streak": [
+      1,
+      3,
+      1
+     ],
+     "pl_highest_scoring_match": [
+      "2025-11-27",
+      10
+     ],
+     "team_performance": [
+      0.25,
+      1.0
+     ],
+     "goal_differential": -6,
+     "match_attendance_rate": 0.19230769230769232,
+     "team_affinity": [
+      4,
+      1
+     ],
+     "overall_team_efficiency": [
+      0.25,
+      1.0
+     ]
+    },
+    "petof": {
+     "total_matches_played": [
+      26,
+      "25.06.2026"
+     ],
+     "matches_played": 1,
+     "team_breakdown": [
+      0,
+      1
+     ],
+     "wins_losses": [
+      0,
+      1,
+      0.0,
+      0
+     ],
+     "average_team_score_contribution": 12.0,
+     "winning_losing_streak": [
+      0,
+      1,
+      0
+     ],
+     "pl_highest_scoring_match": [
+      "2025-09-18",
+      12
+     ],
+     "team_performance": [
+      0,
+      0.0
+     ],
+     "goal_differential": -1,
+     "match_attendance_rate": 0.038461538461538464,
+     "team_affinity": [
+      0,
+      1
+     ],
+     "overall_team_efficiency": [
+      0,
+      0.0
+     ]
+    },
+    "michal": {
+     "total_matches_played": [
+      26,
+      "25.06.2026"
+     ],
+     "matches_played": 16,
+     "team_breakdown": [
+      8,
+      8
+     ],
+     "wins_losses": [
+      3,
+      12,
+      20.0,
+      1
+     ],
+     "average_team_score_contribution": 9.0,
+     "winning_losing_streak": [
+      2,
+      6,
+      2
+     ],
+     "pl_highest_scoring_match": [
+      "2026-02-05",
+      15
+     ],
+     "team_performance": [
+      0.25,
+      0.125
+     ],
+     "goal_differential": -47,
+     "match_attendance_rate": 0.6153846153846154,
+     "team_affinity": [
+      8,
+      8
+     ],
+     "overall_team_efficiency": [
+      0.25,
+      0.125
+     ]
+    },
+    "petob": {
+     "total_matches_played": [
+      26,
+      "25.06.2026"
+     ],
+     "matches_played": 14,
+     "team_breakdown": [
+      5,
+      9
+     ],
+     "wins_losses": [
+      5,
+      9,
+      35.714285714285715,
+      0
+     ],
+     "average_team_score_contribution": 9.571428571428571,
+     "winning_losing_streak": [
+      3,
+      6,
+      3
+     ],
+     "pl_highest_scoring_match": [
+      "2025-10-02",
+      13
+     ],
+     "team_performance": [
+      0.6,
+      0.2222222222222222
+     ],
+     "goal_differential": -28,
+     "match_attendance_rate": 0.5384615384615384,
+     "team_affinity": [
+      5,
+      9
+     ],
+     "overall_team_efficiency": [
+      0.6,
+      0.2222222222222222
+     ]
+    },
+    "frido": {
+     "total_matches_played": [
+      26,
+      "25.06.2026"
+     ],
+     "matches_played": 21,
+     "team_breakdown": [
+      9,
+      12
+     ],
+     "wins_losses": [
+      8,
+      13,
+      38.095238095238095,
+      0
+     ],
+     "average_team_score_contribution": 10.380952380952381,
+     "winning_losing_streak": [
+      4,
+      4,
+      4
+     ],
+     "pl_highest_scoring_match": [
+      "2025-10-23",
+      17
+     ],
+     "team_performance": [
+      0.5555555555555556,
+      0.25
+     ],
+     "goal_differential": -7,
+     "match_attendance_rate": 0.8076923076923077,
+     "team_affinity": [
+      9,
+      12
+     ],
+     "overall_team_efficiency": [
+      0.5555555555555556,
+      0.25
+     ]
+    },
+    "tomas": {
+     "total_matches_played": [
+      26,
+      "25.06.2026"
+     ],
+     "matches_played": 21,
+     "team_breakdown": [
+      14,
+      7
+     ],
+     "wins_losses": [
+      14,
+      6,
+      70.0,
+      1
+     ],
+     "average_team_score_contribution": 11.380952380952381,
+     "winning_losing_streak": [
+      6,
+      2,
+      6
+     ],
+     "pl_highest_scoring_match": [
+      "2026-06-04",
+      19
+     ],
+     "team_performance": [
+      0.7142857142857143,
+      0.5714285714285714
+     ],
+     "goal_differential": 28,
+     "match_attendance_rate": 0.8076923076923077,
+     "team_affinity": [
+      14,
+      7
+     ],
+     "overall_team_efficiency": [
+      0.7142857142857143,
+      0.5714285714285714
+     ]
+    },
+    "adam": {
+     "total_matches_played": [
+      26,
+      "25.06.2026"
+     ],
+     "matches_played": 22,
+     "team_breakdown": [
+      14,
+      8
+     ],
+     "wins_losses": [
+      12,
+      9,
+      57.14285714285714,
+      1
+     ],
+     "average_team_score_contribution": 11.045454545454545,
+     "winning_losing_streak": [
+      3,
+      3,
+      3
+     ],
+     "pl_highest_scoring_match": [
+      "2026-06-04",
+      19
+     ],
+     "team_performance": [
+      0.6428571428571429,
+      0.375
+     ],
+     "goal_differential": 24,
+     "match_attendance_rate": 0.8461538461538461,
+     "team_affinity": [
+      14,
+      8
+     ],
+     "overall_team_efficiency": [
+      0.6428571428571429,
+      0.375
+     ]
+    },
+    "jozo": {
+     "total_matches_played": [
+      26,
+      "25.06.2026"
+     ],
+     "matches_played": 0,
+     "team_breakdown": [
+      0,
+      0
+     ],
+     "wins_losses": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "average_team_score_contribution": 0,
+     "winning_losing_streak": [
+      0,
+      0,
+      0
+     ],
+     "pl_highest_scoring_match": [
+      null,
+      -1
+     ],
+     "team_performance": [
+      0,
+      0
+     ],
+     "goal_differential": 0,
+     "match_attendance_rate": 0.0,
+     "team_affinity": [
+      0,
+      0
+     ],
+     "overall_team_efficiency": [
+      0,
+      0
+     ]
+    },
+    "roman": {
+     "total_matches_played": [
+      26,
+      "25.06.2026"
+     ],
+     "matches_played": 24,
+     "team_breakdown": [
+      13,
+      11
+     ],
+     "wins_losses": [
+      9,
+      14,
+      39.130434782608695,
+      1
+     ],
+     "average_team_score_contribution": 10.166666666666666,
+     "winning_losing_streak": [
+      3,
+      4,
+      4
+     ],
+     "pl_highest_scoring_match": [
+      "2026-06-04",
+      19
+     ],
+     "team_performance": [
+      0.46153846153846156,
+      0.2727272727272727
+     ],
+     "goal_differential": -15,
+     "match_attendance_rate": 0.9230769230769231,
+     "team_affinity": [
+      13,
+      11
+     ],
+     "overall_team_efficiency": [
+      0.46153846153846156,
+      0.2727272727272727
+     ]
+    },
+    "dano": {
+     "total_matches_played": [
+      26,
+      "25.06.2026"
+     ],
+     "matches_played": 0,
+     "team_breakdown": [
+      0,
+      0
+     ],
+     "wins_losses": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "average_team_score_contribution": 0,
+     "winning_losing_streak": [
+      0,
+      0,
+      0
+     ],
+     "pl_highest_scoring_match": [
+      null,
+      -1
+     ],
+     "team_performance": [
+      0,
+      0
+     ],
+     "goal_differential": 0,
+     "match_attendance_rate": 0.0,
+     "team_affinity": [
+      0,
+      0
+     ],
+     "overall_team_efficiency": [
+      0,
+      0
+     ]
+    },
+    "tono": {
+     "total_matches_played": [
+      26,
+      "25.06.2026"
+     ],
+     "matches_played": 0,
+     "team_breakdown": [
+      0,
+      0
+     ],
+     "wins_losses": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "average_team_score_contribution": 0,
+     "winning_losing_streak": [
+      0,
+      0,
+      0
+     ],
+     "pl_highest_scoring_match": [
+      null,
+      -1
+     ],
+     "team_performance": [
+      0,
+      0
+     ],
+     "goal_differential": 0,
+     "match_attendance_rate": 0.0,
+     "team_affinity": [
+      0,
+      0
+     ],
+     "overall_team_efficiency": [
+      0,
+      0
+     ]
+    },
+    "filip": {
+     "total_matches_played": [
+      26,
+      "25.06.2026"
+     ],
+     "matches_played": 0,
+     "team_breakdown": [
+      0,
+      0
+     ],
+     "wins_losses": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "average_team_score_contribution": 0,
+     "winning_losing_streak": [
+      0,
+      0,
+      0
+     ],
+     "pl_highest_scoring_match": [
+      null,
+      -1
+     ],
+     "team_performance": [
+      0,
+      0
+     ],
+     "goal_differential": 0,
+     "match_attendance_rate": 0.0,
+     "team_affinity": [
+      0,
+      0
+     ],
+     "overall_team_efficiency": [
+      0,
+      0
+     ]
+    },
+    "petoch": {
+     "total_matches_played": [
+      26,
+      "25.06.2026"
+     ],
+     "matches_played": 7,
+     "team_breakdown": [
+      3,
+      4
+     ],
+     "wins_losses": [
+      4,
+      3,
+      57.14285714285714,
+      0
+     ],
+     "average_team_score_contribution": 10.428571428571429,
+     "winning_losing_streak": [
+      2,
+      2,
+      2
+     ],
+     "pl_highest_scoring_match": [
+      "2026-02-05",
+      17
+     ],
+     "team_performance": [
+      0.6666666666666666,
+      0.5
+     ],
+     "goal_differential": 0,
+     "match_attendance_rate": 0.2692307692307692,
+     "team_affinity": [
+      3,
+      4
+     ],
+     "overall_team_efficiency": [
+      0.6666666666666666,
+      0.5
+     ]
+    },
+    "tomasc": {
+     "total_matches_played": [
+      26,
+      "25.06.2026"
+     ],
+     "matches_played": 20,
+     "team_breakdown": [
+      10,
+      10
+     ],
+     "wins_losses": [
+      14,
+      5,
+      73.68421052631578,
+      1
+     ],
+     "average_team_score_contribution": 11.15,
+     "winning_losing_streak": [
+      4,
+      1,
+      4
+     ],
+     "pl_highest_scoring_match": [
+      "2026-06-04",
+      19
+     ],
+     "team_performance": [
+      0.7,
+      0.7
+     ],
+     "goal_differential": 40,
+     "match_attendance_rate": 0.7692307692307693,
+     "team_affinity": [
+      10,
+      10
+     ],
+     "overall_team_efficiency": [
+      0.7,
+      0.7
+     ]
+    },
+    "vladneme": {
+     "total_matches_played": [
+      26,
+      "25.06.2026"
+     ],
+     "matches_played": 11,
+     "team_breakdown": [
+      4,
+      7
+     ],
+     "wins_losses": [
+      7,
+      4,
+      63.63636363636363,
+      0
+     ],
+     "average_team_score_contribution": 10.454545454545455,
+     "winning_losing_streak": [
+      3,
+      2,
+      3
+     ],
+     "pl_highest_scoring_match": [
+      "2025-10-23",
+      17
+     ],
+     "team_performance": [
+      1.0,
+      0.42857142857142855
+     ],
+     "goal_differential": 15,
+     "match_attendance_rate": 0.4230769230769231,
+     "team_affinity": [
+      4,
+      7
+     ],
+     "overall_team_efficiency": [
+      1.0,
+      0.42857142857142855
+     ]
+    },
+    "denis": {
+     "total_matches_played": [
+      26,
+      "25.06.2026"
+     ],
+     "matches_played": 0,
+     "team_breakdown": [
+      0,
+      0
+     ],
+     "wins_losses": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "average_team_score_contribution": 0,
+     "winning_losing_streak": [
+      0,
+      0,
+      0
+     ],
+     "pl_highest_scoring_match": [
+      null,
+      -1
+     ],
+     "team_performance": [
+      0,
+      0
+     ],
+     "goal_differential": 0,
+     "match_attendance_rate": 0.0,
+     "team_affinity": [
+      0,
+      0
+     ],
+     "overall_team_efficiency": [
+      0,
+      0
+     ]
+    },
+    "robert": {
+     "total_matches_played": [
+      26,
+      "25.06.2026"
+     ],
+     "matches_played": 2,
+     "team_breakdown": [
+      1,
+      1
+     ],
+     "wins_losses": [
+      0,
+      2,
+      0.0,
+      0
+     ],
+     "average_team_score_contribution": 8.0,
+     "winning_losing_streak": [
+      0,
+      2,
+      0
+     ],
+     "pl_highest_scoring_match": [
+      "2026-05-07",
+      8
+     ],
+     "team_performance": [
+      0.0,
+      0.0
+     ],
+     "goal_differential": -6,
+     "match_attendance_rate": 0.07692307692307693,
+     "team_affinity": [
+      1,
+      1
+     ],
+     "overall_team_efficiency": [
+      0.0,
+      0.0
+     ]
+    },
+    "risod": {
+     "total_matches_played": [
+      26,
+      "25.06.2026"
+     ],
+     "matches_played": 16,
+     "team_breakdown": [
+      7,
+      9
+     ],
+     "wins_losses": [
+      9,
+      6,
+      60.0,
+      1
+     ],
+     "average_team_score_contribution": 11.125,
+     "winning_losing_streak": [
+      3,
+      2,
+      6
+     ],
+     "pl_highest_scoring_match": [
+      "2026-02-05",
+      17
+     ],
+     "team_performance": [
+      0.7142857142857143,
+      0.4444444444444444
+     ],
+     "goal_differential": -2,
+     "match_attendance_rate": 0.6153846153846154,
+     "team_affinity": [
+      7,
+      9
+     ],
+     "overall_team_efficiency": [
+      0.7142857142857143,
+      0.4444444444444444
+     ]
+    },
+    "rado": {
+     "total_matches_played": [
+      26,
+      "25.06.2026"
+     ],
+     "matches_played": 2,
+     "team_breakdown": [
+      0,
+      2
+     ],
+     "wins_losses": [
+      0,
+      2,
+      0.0,
+      0
+     ],
+     "average_team_score_contribution": 7.0,
+     "winning_losing_streak": [
+      0,
+      2,
+      0
+     ],
+     "pl_highest_scoring_match": [
+      "2025-10-02",
+      10
+     ],
+     "team_performance": [
+      0,
+      0.0
+     ],
+     "goal_differential": -9,
+     "match_attendance_rate": 0.07692307692307693,
+     "team_affinity": [
+      0,
+      2
+     ],
+     "overall_team_efficiency": [
+      0,
+      0.0
+     ]
+    },
+    "ondrej": {
+     "total_matches_played": [
+      26,
+      "25.06.2026"
+     ],
+     "matches_played": 10,
+     "team_breakdown": [
+      6,
+      4
+     ],
+     "wins_losses": [
+      7,
+      2,
+      77.77777777777779,
+      1
+     ],
+     "average_team_score_contribution": 11.8,
+     "winning_losing_streak": [
+      3,
+      2,
+      6
+     ],
+     "pl_highest_scoring_match": [
+      "2026-06-04",
+      19
+     ],
+     "team_performance": [
+      0.8333333333333334,
+      0.5
+     ],
+     "goal_differential": 18,
+     "match_attendance_rate": 0.38461538461538464,
+     "team_affinity": [
+      6,
+      4
+     ],
+     "overall_team_efficiency": [
+      0.8333333333333334,
+      0.5
+     ]
+    },
+    "janok": {
+     "total_matches_played": [
+      26,
+      "25.06.2026"
+     ],
+     "matches_played": 2,
+     "team_breakdown": [
+      0,
+      2
+     ],
+     "wins_losses": [
+      1,
+      1,
+      50.0,
+      0
+     ],
+     "average_team_score_contribution": 9.0,
+     "winning_losing_streak": [
+      1,
+      1,
+      1
+     ],
+     "pl_highest_scoring_match": [
+      "2026-02-26",
+      10
+     ],
+     "team_performance": [
+      0,
+      0.5
+     ],
+     "goal_differential": 1,
+     "match_attendance_rate": 0.07692307692307693,
+     "team_affinity": [
+      0,
+      2
+     ],
+     "overall_team_efficiency": [
+      0,
+      0.5
+     ]
+    },
+    "marcel": {
+     "total_matches_played": [
+      26,
+      "25.06.2026"
+     ],
+     "matches_played": 2,
+     "team_breakdown": [
+      1,
+      1
+     ],
+     "wins_losses": [
+      1,
+      0,
+      100.0,
+      1
+     ],
+     "average_team_score_contribution": 9.5,
+     "winning_losing_streak": [
+      1,
+      0,
+      2
+     ],
+     "pl_highest_scoring_match": [
+      "2026-05-14",
+      11
+     ],
+     "team_performance": [
+      1.0,
+      0.0
+     ],
+     "goal_differential": 3,
+     "match_attendance_rate": 0.07692307692307693,
+     "team_affinity": [
+      1,
+      1
+     ],
+     "overall_team_efficiency": [
+      1.0,
+      0.0
+     ]
+    }
+   }
+  }
+ }
+}

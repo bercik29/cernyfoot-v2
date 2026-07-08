@@ -2,20 +2,27 @@
 {% block title %}Hráči — Fodbal Černyševského{% endblock %}
 
 {% block content %}
-<section class="page">
+<section class="page-wide view-fade" style="width:100%">
     <div class="page-head">
-        <h1>Hráči <span class="muted">({{ players|length }})</span></h1>
+        <p class="eyebrow">Súpiska</p>
+        <h1 class="section-title">Hráči <span class="mono" style="color:var(--sage);font-size:20px">({{ players|length }})</span></h1>
+        <p class="sub">Zeleno-oranžová partia. Admini spravujú zápasy a výsledky.</p>
     </div>
-    <table class="table">
-        <thead><tr><th>Prezývka</th><th>Meno</th></tr></thead>
-        <tbody>
-            {% for p in players %}
-            <tr>
-                <td><strong>{{ p.nickname }}</strong>{% if p.is_admin %} <span class="badge">admin</span>{% endif %}</td>
-                <td>{{ p.name or '' }} {{ p.surname or '' }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+
+    <hr class="rule">
+
+    <div class="players-grid">
+        {% for p in players %}
+        {% set bg, fg = p.nickname|avatar_color %}
+        <div class="pcard">
+            <span class="avatar" style="background:{{ bg }};color:{{ fg }}">{{ p|initials }}</span>
+            <div>
+                <div class="p-nick">{{ p.nickname }}</div>
+                <div class="p-name">{{ p.name or '' }} {{ p.surname or '' }}</div>
+            </div>
+            {% if p.is_admin %}<span class="p-admin">admin</span>{% endif %}
+        </div>
+        {% endfor %}
+    </div>
 </section>
 {% endblock %}

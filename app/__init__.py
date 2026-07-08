@@ -76,6 +76,29 @@ def create_app(config_name: str | None = None) -> Flask:
     def skday(value) -> str:
         return SK_DAYS[value.weekday()]
 
+    # Player-card avatars (view-layer helpers, ported from the design reference):
+    # a stable hash of the nickname picks a tinted background + ink pair.
+    AVATAR_COLORS = [
+        ("#2FBF71", "#0B3D22"),
+        ("#FF8A3D", "#3A1A08"),
+        ("#5BAF8A", "#0E2E22"),
+        ("#C9A227", "#2E2408"),
+    ]
+
+    @app.template_filter()
+    def avatar_color(nickname: str) -> tuple:
+        h = 0
+        for ch in nickname:
+            h = (h * 31 + ord(ch)) & 0xFFFFFFFF
+        return AVATAR_COLORS[h % len(AVATAR_COLORS)]
+
+    @app.template_filter()
+    def initials(player) -> str:
+        full = f"{player.name or ''} {player.surname or ''}".replace("(", "").replace(")", "").split()
+        if full:
+            return "".join(p[0] for p in full[:2]).upper()
+        return player.nickname[:2].upper()
+
     # Blueprints
     from .main import bp as main_bp
     from .auth import bp as auth_bp

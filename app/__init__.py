@@ -55,6 +55,19 @@ def create_app(config_name: str | None = None) -> Flask:
     # Register models with the mapper (side-effect import).
     from . import models  # noqa: F401
 
+    # Cache-busted static URLs: the file's mtime becomes a ?v= query parameter,
+    # so browsers re-fetch CSS/JS exactly when a deploy changes it and never
+    # serve a stale design from cache.
+    from flask import url_for
+
+    @app.template_global()
+    def static_url(filename: str) -> str:
+        try:
+            mtime = int(os.stat(os.path.join(app.static_folder, filename)).st_mtime)
+        except OSError:
+            mtime = 0
+        return url_for("static", filename=filename, v=mtime)
+
     # Blueprints
     from .main import bp as main_bp
     from .auth import bp as auth_bp

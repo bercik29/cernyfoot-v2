@@ -23,3 +23,6 @@ instance/
 # Editor
 .vscode/
 .idea/
+
+# Generated per-run by scripts/migrate_csv.py (differs between machines)
+scripts/output/migration_report.md

@@ -91,6 +91,7 @@ def detail(match_id: int):
         signed_up=signed_up,
         signup_open=timing.is_signup_open(match),
         signup_deadline=timing.signup_deadline(match.date),
+        is_match_over=timing.is_over(match.date),
     )
 
 

@@ -1,4 +1,5 @@
-"""Admin: dashboard, seasons & schedule generation, holidays, match management.
+"""Admin: dashboard, seasons & schedule generation, holidays, match management,
+team distribution, and result entry.
 
 Everything here is @admin_required (closing audit #4's unprotected-route class).
 Cancellation is a DB status flip — effective immediately on every page and worker
@@ -6,12 +7,17 @@ Cancellation is a DB status flip — effective immediately on every page and wor
 """
 from __future__ import annotations
 
+import random
+import secrets
+
 from flask import flash, redirect, render_template, request, url_for
 
 from ..extensions import db
-from ..models import Holiday, Match, MatchStatus, Player, Season
+from ..models import Holiday, Match, MatchStatus, Player, Season, Signup, Team
+from ..services import form as form_svc
 from ..services import seasons as seasons_svc
 from ..services import timing
+from ..services.balancing import balance_teams
 from ..services.schedule import generate_schedule
 from ..utils import admin_required, log_action, safe_referrer
 from . import bp
@@ -195,3 +201,163 @@ def restore_match(match_id: int):
         db.session.commit()
         flash(f"Zápas {match.date.strftime('%d.%m.%Y')} obnovený.", "success")
     return redirect(safe_referrer() or url_for("admin.matches"))
+
+
+# ---- Teams (distribute / manual / roster) ------------------------------------
+
+def _managed_match(match_id: int) -> Match | None:
+    match = db.session.get(Match, match_id)
+    if match is None:
+        flash("Zápas neexistuje.", "error")
+    return match
+
+
+@bp.route("/matches/<int:match_id>/distribute", methods=["POST"])
+@admin_required
+def distribute_teams(match_id: int):
+    """Auto-balance the signed-up players into green/orange (ported algorithm).
+    Every run is audit-logged with its seed and form scores, so a disputed split
+    can be reproduced and explained (audit §5 recommendation)."""
+    match = _managed_match(match_id)
+    if match is None:
+        return redirect(url_for("admin.matches"))
+    if match.status == MatchStatus.cancelled or match.has_result:
+        flash("Tímy sa nedajú rozdeliť — zápas je zrušený alebo už má výsledok.", "error")
+    elif not match.signups:
+        flash("Nikto nie je prihlásený.", "warning")
+    else:
+        scores = form_svc.form_scores_for(match.signups)
+        seed = secrets.randbits(32)
+        outcome = balance_teams(scores, random.Random(seed))
+        green = set(outcome.green)
+        for s in match.signups:
+            s.team = Team.green if s.player.nickname in green else Team.orange
+        log_action(
+            "match.distribute",
+            entity=f"match:{match.date.isoformat()}",
+            payload={
+                "seed": seed,
+                "form_scores": scores,
+                "green": outcome.green,
+                "orange": outcome.orange,
+            },
+        )
+        db.session.commit()
+        flash(f"Tímy rozdelené ({len(outcome.green)} : {len(outcome.orange)}).", "success")
+    return redirect(safe_referrer() or url_for("matches.detail", match_id=match_id))
+
+
+@bp.route("/matches/<int:match_id>/teams", methods=["POST"])
+@admin_required
+def set_teams(match_id: int):
+    """Manual team assignment: one select per signup (team_<signup_id>)."""
+    match = _managed_match(match_id)
+    if match is None:
+        return redirect(url_for("admin.matches"))
+    if match.status == MatchStatus.cancelled:
+        flash("Zrušený zápas sa nedá upravovať.", "error")
+        return redirect(safe_referrer() or url_for("matches.detail", match_id=match_id))
+
+    valid = {t.value: t for t in Team}
+    changed = 0
+    for s in match.signups:
+        raw = request.form.get(f"team_{s.id}")
+        if raw in valid and s.team != valid[raw]:
+            s.team = valid[raw]
+            changed += 1
+    if changed:
+        log_action("match.set_teams", entity=f"match:{match.date.isoformat()}",
+                   payload={"changed": changed})
+        db.session.commit()
+        flash("Tímy uložené.", "success")
+    else:
+        flash("Žiadna zmena.", "info")
+    return redirect(safe_referrer() or url_for("matches.detail", match_id=match_id))
+
+
+@bp.route("/matches/<int:match_id>/add_player", methods=["POST"])
+@admin_required
+def add_player(match_id: int):
+    """Admin adds a player to the roster: an existing nickname joins as
+    unassigned; an unknown nickname becomes a guest record. (The original's
+    unauthenticated add_visiting_player — audit NEW-1/#4 — is gone.)"""
+    match = _managed_match(match_id)
+    if match is None:
+        return redirect(url_for("admin.matches"))
+    nickname = (request.form.get("nickname") or "").strip()
+    if not nickname:
+        flash("Zadaj prezývku.", "error")
+    elif match.status == MatchStatus.cancelled:
+        flash("Zrušený zápas sa nedá upravovať.", "error")
+    else:
+        player = Player.query.filter_by(nickname=nickname).first()
+        if player is None:
+            player = Player(nickname=nickname, is_guest=True)
+            db.session.add(player)
+            db.session.flush()
+        if any(s.player_id == player.id for s in match.signups):
+            flash(f"{nickname} už je na súpiske.", "info")
+        else:
+            team = Team.guest if player.is_guest else Team.unassigned
+            db.session.add(Signup(match_id=match.id, player_id=player.id, team=team))
+            log_action("match.add_player", entity=f"match:{match.date.isoformat()}",
+                       payload={"player": nickname, "guest": player.is_guest})
+            db.session.commit()
+            flash(f"{nickname} pridaný na súpisku.", "success")
+    return redirect(safe_referrer() or url_for("matches.detail", match_id=match_id))
+
+
+@bp.route("/matches/<int:match_id>/remove_player/<int:player_id>", methods=["POST"])
+@admin_required
+def remove_player(match_id: int, player_id: int):
+    match = _managed_match(match_id)
+    if match is None:
+        return redirect(url_for("admin.matches"))
+    signup = Signup.query.filter_by(match_id=match_id, player_id=player_id).first()
+    if signup is None:
+        flash("Hráč nie je na súpiske.", "info")
+    else:
+        nickname = signup.player.nickname
+        db.session.delete(signup)
+        log_action("match.remove_player", entity=f"match:{match.date.isoformat()}",
+                   payload={"player": nickname})
+        db.session.commit()
+        flash(f"{nickname} odstránený zo súpisky.", "success")
+    return redirect(safe_referrer() or url_for("matches.detail", match_id=match_id))
+
+
+# ---- Result entry -------------------------------------------------------------------
+
+
+@bp.route("/matches/<int:match_id>/result", methods=["POST"])
+@admin_required
+def set_result(match_id: int):
+    """Enter/edit the final score. Allowed once the match is over (MATCH_LOCK);
+    stores the score exactly once and flips the status to played."""
+    match = _managed_match(match_id)
+    if match is None:
+        return redirect(url_for("admin.matches"))
+
+    if match.status == MatchStatus.cancelled:
+        flash("Zrušený zápas nemôže mať výsledok. Najprv ho obnov.", "error")
+        return redirect(safe_referrer() or url_for("matches.detail", match_id=match_id))
+    if not timing.is_over(match.date):
+        flash("Výsledok sa dá zadať až po zápase.", "error")
+        return redirect(safe_referrer() or url_for("matches.detail", match_id=match_id))
+
+    try:
+        green = int(request.form["green_score"])
+        orange = int(request.form["orange_score"])
+        if green < 0 or orange < 0:
+            raise ValueError
+    except (KeyError, ValueError):
+        flash("Neplatné skóre.", "error")
+        return redirect(safe_referrer() or url_for("matches.detail", match_id=match_id))
+
+    match.green_score, match.orange_score = green, orange
+    match.status = MatchStatus.played
+    log_action("match.set_result", entity=f"match:{match.date.isoformat()}",
+               payload={"score": f"{green}:{orange}"})
+    db.session.commit()
+    flash(f"Výsledok uložený: {green}:{orange}.", "success")
+    return redirect(safe_referrer() or url_for("matches.detail", match_id=match_id))

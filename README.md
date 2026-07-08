@@ -56,7 +56,8 @@ cernyfoot-v2/
 - [x] **Phase 3 — Core domain**: single-deadline timing service, admin-driven schedule
       generator, calendar + signup/signout, cancellation with immediate effect,
       seasons & holidays admin UI
-- [ ] Phase 4 — Teams & results
+- [x] **Phase 4 — Teams & results**: ported balancing algorithm (pure, seeded, logged),
+      manual team editor, roster add/remove, result entry (score stored once)
 - [ ] Phase 5 — Statistics
 - [ ] Phase 6 — Frontend / UX
 - [ ] Phase 7 — Cutover

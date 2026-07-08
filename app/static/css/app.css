@@ -141,3 +141,17 @@ a { color: var(--green); }
     padding: .4rem .6rem; border: 1px solid #cfd6d2; border-radius: .6rem;
     background: #fff; font-size: .95rem;
 }
+
+/* Admin match panel */
+.admin-panel { border-left: 4px solid var(--orange); }
+.admin-row { display: flex; align-items: center; gap: .6rem; margin-top: 1rem; flex-wrap: wrap; }
+.input-inline {
+    padding: .45rem .7rem; border: 1px solid #cfd6d2; border-radius: .6rem; font-size: .95rem;
+}
+.input-score {
+    width: 4rem; padding: .45rem .5rem; border: 1px solid #cfd6d2; border-radius: .6rem;
+    font-size: 1rem; text-align: center;
+}
+.admin-panel select {
+    padding: .35rem .5rem; border: 1px solid #cfd6d2; border-radius: .5rem; background: #fff;
+}

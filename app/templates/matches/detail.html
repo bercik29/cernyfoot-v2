@@ -54,19 +54,90 @@
         {% endif %}
     </div>
 
-    {% if current_user.is_authenticated and current_user.is_admin and match.status.value != 'played' and not match.has_result %}
-    <div class="admin-actions">
-        {% if match.status.value == 'cancelled' %}
-        <form method="POST" action="{{ url_for('admin.restore_match', match_id=match.id) }}" class="inline-form">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-            <button type="submit" class="btn btn-ghost">Obnoviť zápas</button>
-        </form>
-        {% else %}
-        <form method="POST" action="{{ url_for('admin.cancel_match', match_id=match.id) }}" class="inline-form">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-            <button type="submit" class="btn btn-danger">Zrušiť zápas</button>
-        </form>
+    {% if current_user.is_authenticated and current_user.is_admin %}
+    <div class="card admin-panel">
+        <h2>⚙️ Správa zápasu</h2>
+
+        {% if match.status.value != 'cancelled' %}
+
+            {# --- Roster & teams --- #}
+            {% if match.signups %}
+            <form id="teamform" method="POST" action="{{ url_for('admin.set_teams', match_id=match.id) }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            </form>
+            <table class="table">
+                <thead><tr><th>Hráč</th><th>Tím</th><th></th></tr></thead>
+                <tbody>
+                    {% for s in match.signups|sort(attribute='player.nickname') %}
+                    <tr>
+                        <td>{{ s.player.nickname }}{% if s.player.is_guest %} <span class="tag">hosť</span>{% endif %}</td>
+                        <td>
+                            <select name="team_{{ s.id }}" form="teamform">
+                                <option value="green" {% if s.team.value == 'green' %}selected{% endif %}>🟢 Zelení</option>
+                                <option value="orange" {% if s.team.value == 'orange' %}selected{% endif %}>🟠 Oranžoví</option>
+                                <option value="unassigned" {% if s.team.value == 'unassigned' %}selected{% endif %}>⏳ Nerozdelený</option>
+                                <option value="guest" {% if s.team.value == 'guest' %}selected{% endif %}>👤 Hosť</option>
+                            </select>
+                        </td>
+                        <td>
+                            <form method="POST" action="{{ url_for('admin.remove_player', match_id=match.id, player_id=s.player_id) }}" class="inline-form"
+                                  onsubmit="return confirm('Odstrániť {{ s.player.nickname }} zo súpisky?');">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <button type="submit" class="btn btn-ghost btn-sm">✕</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="admin-row">
+                <button type="submit" form="teamform" class="btn btn-primary btn-sm">Uložiť tímy</button>
+                {% if not match.has_result %}
+                <form method="POST" action="{{ url_for('admin.distribute_teams', match_id=match.id) }}" class="inline-form">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn-ghost btn-sm">🎲 Rozdeliť tímy automaticky</button>
+                </form>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            {# --- Add player --- #}
+            <form method="POST" action="{{ url_for('admin.add_player', match_id=match.id) }}" class="admin-row">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="text" name="nickname" placeholder="prezývka / hosť" class="input-inline">
+                <button type="submit" class="btn btn-ghost btn-sm">Pridať hráča</button>
+            </form>
+
+            {# --- Result entry --- #}
+            {% if is_match_over %}
+            <form method="POST" action="{{ url_for('admin.set_result', match_id=match.id) }}" class="admin-row">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <label>🟢</label>
+                <input type="number" name="green_score" min="0" value="{{ match.green_score if match.green_score is not none else '' }}" class="input-score" required>
+                <span>:</span>
+                <input type="number" name="orange_score" min="0" value="{{ match.orange_score if match.orange_score is not none else '' }}" class="input-score" required>
+                <label>🟠</label>
+                <button type="submit" class="btn btn-primary btn-sm">Uložiť výsledok</button>
+            </form>
+            {% endif %}
+
         {% endif %}
+
+        {# --- Cancel / restore --- #}
+        <div class="admin-row">
+            {% if match.status.value == 'cancelled' %}
+            <form method="POST" action="{{ url_for('admin.restore_match', match_id=match.id) }}" class="inline-form">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button type="submit" class="btn btn-ghost btn-sm">Obnoviť zápas</button>
+            </form>
+            {% elif not match.has_result %}
+            <form method="POST" action="{{ url_for('admin.cancel_match', match_id=match.id) }}" class="inline-form"
+                  onsubmit="return confirm('Zrušiť zápas {{ match.date.strftime('%d.%m.%Y') }}?');">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button type="submit" class="btn btn-danger btn-sm">Zrušiť zápas</button>
+            </form>
+            {% endif %}
+        </div>
     </div>
     {% endif %}
 </section>

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Sviatky &amp; prázdniny — Admin{% endblock %}
+
+{% block content %}
+<section class="page">
+    <p><a href="{{ url_for('admin.dashboard') }}">← Admin</a></p>
+    <h1>Sviatky &amp; prázdniny</h1>
+    <p class="notice">V týchto dňoch generátor nevytvorí zápas.</p>
+
+    <div class="card">
+        <h2>Pridať voľno</h2>
+        <form method="POST" class="stack-form">
+            {{ form.hidden_tag() }}
+            {% for field in [form.date_from, form.date_to, form.kind, form.description] %}
+            <label for="{{ field.id }}">{{ field.label.text }}</label>
+            {{ field() }}
+            {% for err in field.errors %}<p class="field-error">{{ err }}</p>{% endfor %}
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Pridať</button>
+        </form>
+    </div>
+
+    <table class="table">
+        <thead><tr><th>Od</th><th>Do</th><th>Typ</th><th>Popis</th><th></th></tr></thead>
+        <tbody>
+            {% for h in holidays %}
+            <tr>
+                <td>{{ h.date_from.strftime('%d.%m.%Y') }}</td>
+                <td>{{ h.date_to.strftime('%d.%m.%Y') }}</td>
+                <td>{{ 'Štátny sviatok' if h.kind == 'public' else 'Školské prázdniny' }}</td>
+                <td>{{ h.description or '' }}</td>
+                <td>
+                    <form method="POST" action="{{ url_for('admin.delete_holiday', holiday_id=h.id) }}" class="inline-form">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="btn btn-ghost btn-sm">Odstrániť</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

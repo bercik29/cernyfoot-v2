@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Admin — Fodbal Černyševského{% endblock %}
+
+{% block content %}
+<section class="page">
+    <h1>Admin</h1>
+
+    <div class="admin-grid">
+        <div class="card">
+            <h2>Najbližší zápas</h2>
+            {% if upcoming %}
+            <p class="match-date">{{ upcoming.date.strftime('%d.%m.%Y') }}</p>
+            <p>Prihlásených: <strong>{{ upcoming.signups|length }}</strong></p>
+            <p><a href="{{ url_for('matches.detail', match_id=upcoming.id) }}">Detail →</a></p>
+            {% else %}
+            <p class="notice">Žiadny naplánovaný zápas{% if off_season %} (medzisezónna prestávka){% endif %}.</p>
+            {% endif %}
+        </div>
+
+        <div class="card">
+            <h2>Správa</h2>
+            <ul class="admin-links">
+                <li><a href="{{ url_for('admin.seasons') }}">Sezóny &amp; generovanie zápasov</a></li>
+                <li><a href="{{ url_for('admin.holidays') }}">Sviatky &amp; prázdniny</a></li>
+                <li><a href="{{ url_for('admin.matches') }}">Zápasy (zrušenie / obnovenie)</a></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>Hráči</h2>
+            <p>Bez nastaveného hesla: <strong>{{ unclaimed }}</strong></p>
+            <table class="table">
+                <thead><tr><th>Prezývka</th><th>Stav</th><th></th></tr></thead>
+                <tbody>
+                    {% for p in players %}
+                    <tr>
+                        <td>{{ p.nickname }}{% if p.is_admin %} <span class="badge">admin</span>{% endif %}</td>
+                        <td>{% if p.is_claimed %}✅ heslo nastavené{% else %}⏳ čaká na prvé prihlásenie{% endif %}</td>
+                        <td>
+                            {% if p.is_claimed %}
+                            <form method="POST" action="{{ url_for('auth.reset_password', player_id=p.id) }}" class="inline-form"
+                                  onsubmit="return confirm('Zresetovať heslo pre {{ p.nickname }}?');">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <button type="submit" class="btn btn-ghost btn-sm">Reset hesla</button>
+                            </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

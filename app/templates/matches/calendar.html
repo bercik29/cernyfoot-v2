@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}Zápasy — Fodbal Černyševského{% endblock %}
+
+{% block content %}
+<section class="page">
+    <div class="page-head">
+        <h1>Zápasy</h1>
+        {% if seasons %}
+        <form method="GET" class="season-picker">
+            <select name="season" onchange="this.form.submit()">
+                {% for s in seasons %}
+                <option value="{{ s.label }}" {% if season and s.id == season.id %}selected{% endif %}>{{ s.label }}</option>
+                {% endfor %}
+            </select>
+        </form>
+        {% endif %}
+    </div>
+
+    {% if off_season %}
+    <p class="notice">Momentálne je prestávka medzi sezónami — zobrazená je posledná sezóna.</p>
+    {% endif %}
+
+    {% if upcoming %}
+    <div class="card upcoming-card">
+        <h2>Najbližší zápas</h2>
+        <p class="match-date">{{ upcoming.date.strftime('%A %d.%m.%Y') }} · {{ season.match_start.strftime('%H:%M') }}–{{ season.match_end.strftime('%H:%M') }}</p>
+        <p class="signup-count">Prihlásených: <strong>{{ signup_count }}</strong></p>
+
+        {% if current_user.is_authenticated %}
+            {% if signup_open %}
+                {% if signed_up %}
+                <p class="you-are-in">✅ Si prihlásený</p>
+                <form method="POST" action="{{ url_for('matches.signout', match_id=upcoming.id) }}" class="inline-form">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn-ghost">Odhlásiť sa zo zápasu</button>
+                </form>
+                {% else %}
+                <form method="POST" action="{{ url_for('matches.signup', match_id=upcoming.id) }}" class="inline-form">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn-primary">Prihlásiť sa na zápas</button>
+                </form>
+                {% endif %}
+                <p class="deadline-note">Prihlasovanie do {{ signup_deadline.strftime('%d.%m. %H:%M') }}</p>
+            {% else %}
+                <p class="deadline-note">⏱ Prihlasovanie je uzavreté{% if signed_up %} — si na súpiske ✅{% endif %}</p>
+            {% endif %}
+        {% else %}
+            <p class="deadline-note"><a href="{{ url_for('auth.login') }}">Prihlás sa</a>, ak chceš hrať.</p>
+        {% endif %}
+        <p><a href="{{ url_for('matches.detail', match_id=upcoming.id) }}">Detail zápasu →</a></p>
+    </div>
+    {% elif season %}
+    <p class="notice">V tejto sezóne už nie je naplánovaný žiadny ďalší zápas.</p>
+    {% endif %}
+
+    {% if future_matches %}
+    <h2>Ďalšie zápasy</h2>
+    <ul class="match-list">
+        {% for m in future_matches %}
+        <li>
+            <a href="{{ url_for('matches.detail', match_id=m.id) }}">{{ m.date.strftime('%d.%m.%Y') }}</a>
+            {% if m.status.value == 'cancelled' %}<span class="tag tag-cancelled">Zrušený</span>{% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% if past_matches %}
+    <h2>Odohrané zápasy</h2>
+    <table class="table">
+        <thead><tr><th>Dátum</th><th>Výsledok</th></tr></thead>
+        <tbody>
+            {% for m in past_matches %}
+            <tr>
+                <td><a href="{{ url_for('matches.detail', match_id=m.id) }}">{{ m.date.strftime('%d.%m.%Y') }}</a></td>
+                <td>
+                    {% if m.status.value == 'cancelled' %}
+                        <span class="tag tag-cancelled">Nehralo sa</span>
+                    {% elif m.has_result %}
+                        <span class="score"><span class="dot dot-green"></span>{{ m.green_score }} : {{ m.orange_score }}<span class="dot dot-orange"></span></span>
+                    {% else %}
+                        <span class="tag">bez výsledku</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</section>
+{% endblock %}

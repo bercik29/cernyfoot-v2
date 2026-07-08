@@ -35,6 +35,14 @@ def is_safe_url(target: str | None) -> bool:
     return not parsed.netloc and not parsed.scheme and target.startswith("/")
 
 
+def safe_referrer() -> str | None:
+    """The Referer header, but only if it points back into this app."""
+    from flask import request
+
+    ref = request.referrer or ""
+    return ref if ref.startswith(request.host_url) else None
+
+
 def log_action(action: str, entity: str | None = None, payload: dict | None = None) -> None:
     """Append to the audit trail. Caller commits."""
     actor_id = current_user.id if current_user.is_authenticated else None

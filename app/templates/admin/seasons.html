@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Sezóny — Admin{% endblock %}
+
+{% block content %}
+<section class="page">
+    <p><a href="{{ url_for('admin.dashboard') }}">← Admin</a></p>
+    <h1>Sezóny</h1>
+
+    <table class="table">
+        <thead><tr><th>Sezóna</th><th>Od</th><th>Do</th><th>Hrací deň</th><th>Zápasov</th><th></th></tr></thead>
+        <tbody>
+            {% set day_names = ['Pondelok','Utorok','Streda','Štvrtok','Piatok','Sobota','Nedeľa'] %}
+            {% for s, match_count in season_rows %}
+            <tr>
+                <td><strong>{{ s.label }}</strong></td>
+                <td>{{ s.starts_on.strftime('%d.%m.%Y') }}</td>
+                <td>{{ s.ends_on.strftime('%d.%m.%Y') }}</td>
+                <td>{{ day_names[s.match_weekday] }} {{ s.match_start.strftime('%H:%M') }}–{{ s.match_end.strftime('%H:%M') }}</td>
+                <td>{{ match_count }}</td>
+                <td>
+                    <form method="POST" action="{{ url_for('admin.generate', season_id=s.id) }}" class="inline-form">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="btn btn-primary btn-sm">Vygenerovať zápasy</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="card">
+        <h2>Nová sezóna</h2>
+        <form method="POST" class="stack-form">
+            {{ form.hidden_tag() }}
+            {% for field in [form.label, form.starts_on, form.ends_on, form.match_weekday, form.match_start, form.match_end] %}
+            <label for="{{ field.id }}">{{ field.label.text }}</label>
+            {{ field() }}
+            {% for err in field.errors %}<p class="field-error">{{ err }}</p>{% endfor %}
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Vytvoriť sezónu</button>
+        </form>
+        <p class="auth-hint">Po vytvorení pridaj sviatky/prázdniny pre nové obdobie a stlač „Vygenerovať zápasy“.</p>
+    </div>
+</section>
+{% endblock %}

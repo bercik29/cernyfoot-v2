@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Zápas {{ match.date.strftime('%d.%m.%Y') }} — Fodbal Černyševského{% endblock %}
+
+{% block content %}
+<section class="page">
+    <p><a href="{{ url_for('matches.calendar') }}">← Späť na zápasy</a></p>
+    <div class="page-head">
+        <h1>Zápas {{ match.date.strftime('%d.%m.%Y') }}</h1>
+        {% if match.status.value == 'cancelled' %}
+            <span class="tag tag-cancelled">Nehralo sa</span>
+        {% elif match.has_result %}
+            <span class="score score-big"><span class="dot dot-green"></span>{{ match.green_score }} : {{ match.orange_score }}<span class="dot dot-orange"></span></span>
+        {% endif %}
+    </div>
+
+    {% if current_user.is_authenticated and signup_open %}
+    <div class="card">
+        {% if signed_up %}
+            <p class="you-are-in">✅ Si prihlásený</p>
+            <form method="POST" action="{{ url_for('matches.signout', match_id=match.id) }}" class="inline-form">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button type="submit" class="btn btn-ghost">Odhlásiť sa</button>
+            </form>
+        {% else %}
+            <form method="POST" action="{{ url_for('matches.signup', match_id=match.id) }}" class="inline-form">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button type="submit" class="btn btn-primary">Prihlásiť sa</button>
+            </form>
+        {% endif %}
+        <p class="deadline-note">Prihlasovanie do {{ signup_deadline.strftime('%d.%m. %H:%M') }}</p>
+    </div>
+    {% endif %}
+
+    <div class="teams-grid">
+        {% if by_team.values()|map('length')|sum > 0 %}
+            {% for team, players in by_team.items() %}
+                {% if players %}
+                <div class="team-col team-{{ team.value }}">
+                    <h3>
+                        {% if team.value == 'green' %}🟢 Zelení
+                        {% elif team.value == 'orange' %}🟠 Oranžoví
+                        {% elif team.value == 'guest' %}👤 Hostia
+                        {% else %}⏳ Zatiaľ nerozdelení{% endif %}
+                        ({{ players|length }})
+                    </h3>
+                    <ul>
+                        {% for p in players %}<li>{{ p.nickname }}</li>{% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <p class="notice">Zatiaľ nikto nie je prihlásený.</p>
+        {% endif %}
+    </div>
+
+    {% if current_user.is_authenticated and current_user.is_admin and match.status.value != 'played' and not match.has_result %}
+    <div class="admin-actions">
+        {% if match.status.value == 'cancelled' %}
+        <form method="POST" action="{{ url_for('admin.restore_match', match_id=match.id) }}" class="inline-form">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit" class="btn btn-ghost">Obnoviť zápas</button>
+        </form>
+        {% else %}
+        <form method="POST" action="{{ url_for('admin.cancel_match', match_id=match.id) }}" class="inline-form">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit" class="btn btn-danger">Zrušiť zápas</button>
+        </form>
+        {% endif %}
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

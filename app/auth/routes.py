@@ -12,7 +12,7 @@ from flask_login import current_user, login_required, login_user, logout_user
 
 from ..extensions import db, limiter
 from ..models import Player
-from ..utils import admin_required, is_safe_url, log_action
+from ..utils import admin_required, is_safe_url, log_action, safe_referrer
 from . import bp
 from .forms import ClaimForm, LoginForm
 
@@ -96,11 +96,5 @@ def reset_password(player_id: int):
     log_action("auth.password_reset", entity=f"player:{player.id}")
     db.session.commit()
     flash(f"Heslo pre {player.nickname} bolo zresetované — nastaví si nové pri prihlásení.", "success")
-    return redirect(request.referrer if is_safe_url_referrer() else url_for("main.index"))
+    return redirect(safe_referrer() or url_for("main.index"))
 
-
-def is_safe_url_referrer() -> bool:
-    """Referrer is same-host? (Used for post-action redirects from admin pages.)"""
-    ref = request.referrer or ""
-    host = request.host_url
-    return ref.startswith(host)

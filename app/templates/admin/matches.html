@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Zápasy — Admin{% endblock %}
+
+{% block content %}
+<section class="page">
+    <p><a href="{{ url_for('admin.dashboard') }}">← Admin</a></p>
+    <div class="page-head">
+        <h1>Zápasy</h1>
+        {% if seasons %}
+        <form method="GET" class="season-picker">
+            <select name="season" onchange="this.form.submit()">
+                {% for s in seasons %}
+                <option value="{{ s.label }}" {% if season and s.id == season.id %}selected{% endif %}>{{ s.label }}</option>
+                {% endfor %}
+            </select>
+        </form>
+        {% endif %}
+    </div>
+
+    <table class="table">
+        <thead><tr><th>Dátum</th><th>Stav</th><th>Prihlásených</th><th>Výsledok</th><th></th></tr></thead>
+        <tbody>
+            {% for m in matches %}
+            <tr>
+                <td><a href="{{ url_for('matches.detail', match_id=m.id) }}">{{ m.date.strftime('%d.%m.%Y') }}</a></td>
+                <td>
+                    {% if m.status.value == 'cancelled' %}<span class="tag tag-cancelled">Zrušený</span>
+                    {% elif is_over(m.date, now) %}<span class="tag">Odohraný</span>
+                    {% else %}<span class="tag tag-scheduled">Naplánovaný</span>{% endif %}
+                </td>
+                <td>{{ m.signups|length }}</td>
+                <td>{% if m.has_result %}{{ m.green_score }} : {{ m.orange_score }}{% else %}–{% endif %}</td>
+                <td>
+                    {% if m.status.value == 'cancelled' %}
+                    <form method="POST" action="{{ url_for('admin.restore_match', match_id=m.id) }}" class="inline-form">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="btn btn-ghost btn-sm">Obnoviť</button>
+                    </form>
+                    {% elif not m.has_result %}{# past matches without a result stay cancellable — the "forgot to cancel" case #}
+                    <form method="POST" action="{{ url_for('admin.cancel_match', match_id=m.id) }}" class="inline-form"
+                          onsubmit="return confirm('Zrušiť zápas {{ m.date.strftime('%d.%m.%Y') }}?');">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="btn btn-danger btn-sm">Zrušiť</button>
+                    </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

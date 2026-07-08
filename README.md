@@ -53,7 +53,9 @@ cernyfoot-v2/
       report in `scripts/output/`), golden master via `scripts/capture_golden_master.py`
 - [x] **Phase 2 — Auth & authorization**: claim-flow password auth (D3), Flask-Login,
       CSRF on all forms, login rate limit, `admin_required`, admin password reset
-- [ ] Phase 3 — Core domain (seasons, schedule, signup, cancellation)
+- [x] **Phase 3 — Core domain**: single-deadline timing service, admin-driven schedule
+      generator, calendar + signup/signout, cancellation with immediate effect,
+      seasons & holidays admin UI
 - [ ] Phase 4 — Teams & results
 - [ ] Phase 5 — Statistics
 - [ ] Phase 6 — Frontend / UX

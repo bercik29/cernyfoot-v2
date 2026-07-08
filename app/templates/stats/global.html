@@ -1,100 +1,105 @@
 {% extends "base.html" %}
 {% block title %}Štatistiky {{ season.label }} — Fodbal Černyševského{% endblock %}
 
-{% macro top3(items, unit='') %}
-<ol class="top3">
-    {% for name, value in items %}
-    <li><span class="top3-name">{{ name }}</span><span class="top3-val">{{ value if value is integer else '%.0f%%'|format(value * 100) }}{{ unit }}</span></li>
-    {% endfor %}
-</ol>
+{% macro lead_card(title, items, is_pct=false) %}
+<div class="lead">
+    <h4>{{ title }}</h4>
+    <ol>
+        {% for name, value in items %}
+        <li>
+            <span class="who"><span class="rk">{{ loop.index }}</span><span class="nm">{{ name }}</span></span>
+            <span class="val">{{ '%.0f%%'|format(value * 100) if is_pct else value }}</span>
+        </li>
+        {% endfor %}
+    </ol>
+</div>
 {% endmacro %}
 
 {% block content %}
-<section class="page page-wide">
+<section class="page-wide view-fade" style="width:100%">
     <div class="page-head">
-        <h1>Štatistiky {{ season.label }}</h1>
-        <form method="GET" class="season-picker">
-            <select name="season" onchange="this.form.submit()">
-                {% for x in seasons %}
-                <option value="{{ x.label }}" {% if x.id == season.id %}selected{% endif %}>{{ x.label }}</option>
-                {% endfor %}
-            </select>
-        </form>
+        <p class="eyebrow">Sezóna <b>{{ season.label }}</b>{% if off_season %} · prestávka medzi sezónami{% endif %}</p>
+        <h1 class="section-title">Štatistiky</h1>
     </div>
 
-    {# --- Summary cards --- #}
-    <div class="stat-cards">
-        <div class="stat-card"><span class="stat-num">{{ s.total_matches_played[0] }}<span class="stat-sub">/{{ total_expected }}</span></span><span class="stat-label">odohraných zápasov</span></div>
-        <div class="stat-card"><span class="stat-num">{{ s.total_goals_scored }}</span><span class="stat-label">gólov spolu</span></div>
-        <div class="stat-card"><span class="stat-num">{{ '%.1f'|format(s.average_goals_per_match) }}</span><span class="stat-label">gólov na zápas</span></div>
-        <div class="stat-card"><span class="stat-num">{{ s.draws[0] }}</span><span class="stat-label">remíz</span></div>
-        <div class="stat-card"><span class="stat-num">{{ s.total_matches_cancelled[0] }}</span><span class="stat-label">zrušených</span></div>
-        <div class="stat-card"><span class="stat-num">{{ '%.1f'|format(s.average_players_per_match) }}</span><span class="stat-label">hráčov na zápas</span></div>
+    <div class="pill-row">
+        {% for x in seasons %}
+        <a class="pill {{ 'on' if x.id == season.id }}" href="{{ url_for('stats.global_stats', season=x.label) }}">{{ x.label }}</a>
+        {% endfor %}
     </div>
 
-    {# --- Team duel --- #}
-    <div class="card duel">
-        <h2>Zelení vs Oranžoví</h2>
-        <div class="duel-bar">
-            {% set gw, ow, dr = s.top_scoring_team[1], s.top_scoring_team[2], s.top_scoring_team[3] %}
-            {% set total = gw + ow + dr if gw + ow + dr > 0 else 1 %}
-            <div class="duel-green" style="width: {{ 100 * gw / total }}%">{{ gw }}</div>
-            <div class="duel-draw" style="width: {{ 100 * dr / total }}%">{{ dr }}</div>
-            <div class="duel-orange" style="width: {{ 100 * ow / total }}%">{{ ow }}</div>
-        </div>
-        <p class="duel-caption">výhry Zelených · remízy · výhry Oranžových</p>
+    {# ---------- metric strip ---------- #}
+    <div class="metric-strip">
+        <div class="metric"><div class="m-num">{{ s.total_matches_played[0] }}</div><div class="m-lbl">odohraných</div></div>
+        <div class="metric"><div class="m-num">{{ s.total_goals_scored }}</div><div class="m-lbl">gólov spolu</div></div>
+        <div class="metric"><div class="m-num">{{ '%.1f'|format(s.average_goals_per_match) }}</div><div class="m-lbl">gólov / zápas</div></div>
+        <div class="metric"><div class="m-num">{{ s.draws[0] }}</div><div class="m-lbl">{{ 'remíza' if s.draws[0] == 1 else 'remíz' }}</div></div>
+        <div class="metric"><div class="m-num">{{ s.total_matches_cancelled[0] }}</div><div class="m-lbl">zrušených</div></div>
+        <div class="metric"><div class="m-num">{{ '%.1f'|format(s.average_players_per_match) }}</div><div class="m-lbl">hráčov / zápas</div></div>
     </div>
 
-    {# --- League table --- #}
-    <div class="card">
-        <h2>Tabuľka</h2>
-        {% set max_points = s.all_players_stats.values()|map(attribute='points')|max if s.all_players_stats else 1 %}
-        <div class="table-wrap">
-        <table class="table league">
-            <thead><tr><th>#</th><th>Hráč</th><th>Z</th><th>V</th><th>R</th><th>P</th><th>Body</th><th class="ptsbar-col"></th></tr></thead>
+    <hr class="rule">
+
+    {# ---------- standings ---------- #}
+    <p class="eyebrow" style="margin-bottom:14px">Tabuľka — bodovanie za výhry</p>
+    <div class="standings">
+        <table>
+            <thead><tr>
+                <th class="st-rank">#</th><th>Hráč</th>
+                <th>Z</th><th>V</th><th class="hide-sm">R</th><th>P</th>
+                <th class="st-bar hide-sm">Forma</th><th>Body</th>
+            </tr></thead>
             <tbody>
+                {% set max_pts = s.all_players_stats.values()|map(attribute='points')|max if s.all_players_stats else 1 %}
                 {% for nick, row in s.all_players_stats.items() %}
-                <tr class="{{ 'me' if current_user.is_authenticated and nick == current_user.nickname }}">
-                    <td>{{ loop.index }}</td>
-                    <td>{{ nick }}</td>
+                {% set rank = loop.index %}
+                <tr {% if rank <= 3 %}class="top{{ rank }}"{% endif %}>
+                    <td class="st-rank">{% if rank == 1 %}<span class="medal">🥇</span>{% elif rank == 2 %}<span class="medal">🥈</span>{% elif rank == 3 %}<span class="medal">🥉</span>{% else %}{{ rank }}{% endif %}</td>
+                    <td class="st-name">{{ nick }}{% if current_user.is_authenticated and nick == current_user.nickname %} <span class="you">(ty)</span>{% endif %}</td>
                     <td>{{ row.games_played }}</td>
-                    <td>{{ row.wins }}</td>
-                    <td>{{ row.draws }}</td>
-                    <td>{{ row.losses }}</td>
-                    <td><strong>{{ row.points }}</strong></td>
-                    <td class="ptsbar-col"><div class="ptsbar" style="width: {{ 100 * row.points / max_points if max_points else 0 }}%"></div></td>
+                    <td class="st-win">{{ row.wins }}</td>
+                    <td class="hide-sm">{{ row.draws }}</td>
+                    <td class="st-loss">{{ row.losses }}</td>
+                    <td class="st-bar hide-sm"><div class="track"><div class="fill" style="width: {{ (100 * row.points / max_pts) | round | int if max_pts else 0 }}%"></div></div></td>
+                    <td class="st-pts">{{ row.points }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-        </div>
     </div>
 
-    {# --- Top-3 grids --- #}
-    <div class="stat-grid">
-        <div class="card"><h3>🏆 Najviac výhier</h3>{{ top3(s.top_3_most_wins) }}</div>
-        <div class="card"><h3>📉 Najviac prehier</h3>{{ top3(s.top_3_most_losses) }}</div>
-        <div class="card"><h3>🔥 Najdlhšia víťazná séria</h3>{{ top3(s.top_3_longest_winning_streaks) }}</div>
-        <div class="card"><h3>🧊 Najdlhšia séria prehier</h3>{{ top3(s.top_3_longest_losing_streaks) }}</div>
-        <div class="card"><h3>🎯 Najvyššia úspešnosť</h3>{{ top3(s.highest_efficiency) }}</div>
-        <div class="card"><h3>📅 Najvyššia účasť</h3>{{ top3(s.top_3_highest_attendance) }}</div>
+    <hr class="rule">
+
+    {# ---------- leaderboards ---------- #}
+    <p class="eyebrow" style="margin-bottom:14px">Rebríčky</p>
+    <div class="lead-grid">
+        {{ lead_card('🏆 Najviac výhier', s.top_3_most_wins) }}
+        {{ lead_card('📉 Najviac prehier', s.top_3_most_losses) }}
+        {{ lead_card('🔥 Najdlhšia víťazná séria', s.top_3_longest_winning_streaks) }}
+        {{ lead_card('🧊 Najdlhšia séria prehier', s.top_3_longest_losing_streaks) }}
+        {{ lead_card('🎯 Najvyššia úspešnosť', s.highest_efficiency, is_pct=true) }}
+        {{ lead_card('📅 Najvyššia účasť', s.top_3_highest_attendance) }}
     </div>
 
-    {# --- Oddities --- #}
-    <div class="card">
-        <h2>Zaujímavosti</h2>
-        <ul class="facts">
-            {% if s.highest_scoring_match[0] %}
-            <li>Najgólovejší zápas: <strong>{{ s.highest_scoring_match[1] }}</strong> ({{ s.highest_scoring_match[0] }})</li>
-            {% endif %}
-            {% if s.most_frequent_team %}
-            <li>Najčastejšie spolu v tíme: <strong>{{ s.most_frequent_team[0][0]|join(', ') }}</strong> ({{ s.most_frequent_team[0][1] }}×)</li>
-            {% endif %}
-            <li>Počet hráčov na zápas: najčastejšie <strong>{{ s.most_frequent_number_of_players_per_match }}</strong>, max {{ s.highest_number_of_players_per_match }}, min {{ s.lowest_number_of_players_per_match }}</li>
-            {% if s.total_matches_played[1] %}
-            <li>Posledný odohraný zápas: {{ s.total_matches_played[1] }}</li>
-            {% endif %}
-        </ul>
+    <hr class="rule">
+
+    {# ---------- facts ---------- #}
+    <p class="eyebrow" style="margin-bottom:14px">Zaujímavosti</p>
+    <div class="facts">
+        {% if s.highest_scoring_match[0] %}
+        <div class="fact"><span class="f-ico">🥅</span><div><div class="f-lbl">Najgólovejší zápas</div>
+            <div class="f-val">{{ s.highest_scoring_match[1].replace(':', ' : ') }} · <span class="mono">{{ s.highest_scoring_match[0] }}</span></div></div></div>
+        {% endif %}
+        {% if s.most_frequent_team %}
+        <div class="fact"><span class="f-ico">🤝</span><div><div class="f-lbl">Najčastejšie spolu v tíme</div>
+            <div class="f-val">{{ s.most_frequent_team[0][0]|join(' · ') }} <span class="mono" style="color:var(--sage)">{{ s.most_frequent_team[0][1] }}×</span></div></div></div>
+        {% endif %}
+        <div class="fact"><span class="f-ico">👥</span><div><div class="f-lbl">Hráčov na zápas</div>
+            <div class="f-val">najčastejšie {{ s.most_frequent_number_of_players_per_match }} · max {{ s.highest_number_of_players_per_match }} · min {{ s.lowest_number_of_players_per_match }}</div></div></div>
+        {% if s.total_matches_played[1] %}
+        <div class="fact"><span class="f-ico">📅</span><div><div class="f-lbl">Posledný odohraný</div>
+            <div class="f-val mono">{{ s.total_matches_played[1] }}</div></div></div>
+        {% endif %}
     </div>
 </section>
 {% endblock %}

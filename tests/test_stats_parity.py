@@ -156,8 +156,11 @@ def test_league_table_totals_sane(migrated):
 def test_stats_pages_render(migrated, client, session):
     """The /stats and /my_stats pages render with real migrated data."""
     html = client.get("/stats?season=2024/2025").get_data(as_text=True)
-    assert "Tabuľka" in html and "Zelení vs Oranžoví" in html
+    assert "Tabuľka" in html and "Rebríčky" in html and "Zaujímavosti" in html
     assert "510" in html  # total goals 2024/2025
+    # The head-to-head duel moved to the homepage in the reskin.
+    home = client.get("/").get_data(as_text=True)
+    assert "Zelení vs Oranžoví" in home and "tension" in home
 
     # my_stats requires login → claim berco and check his page.
     from app.models import Player

@@ -64,4 +64,8 @@ cernyfoot-v2/
 - [x] **Phase 6 — Frontend / UX**: payments (self-view + admin matrix), open registration
       with guest-history upgrade, players page, landing page, mobile bottom-nav,
       form-strip & league-bar charts
-- [ ] Phase 7 — Cutover
+- [x] **Phase 7 — Cutover**: [DEPLOY.md](DEPLOY.md) runbook, verified nightly backup
+      (`scripts/backup_db.py`), route-table security test, prod boot guard,
+      [ACCEPTANCE.md](ACCEPTANCE.md) — all 10 audit criteria met
+
+**Rebuild complete.** 79 tests · golden-master stats parity · all audit findings closed.

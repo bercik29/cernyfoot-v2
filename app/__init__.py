@@ -32,6 +32,15 @@ def create_app(config_name: str | None = None) -> Flask:
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(CONFIG_MAP[config_name])
 
+    # Refuse to boot production with the development fallback secret — a forgeable
+    # session key was audit finding #2; this makes that mistake impossible.
+    if config_name == "prod" and app.config["SECRET_KEY"] == "dev-insecure-change-me":
+        raise RuntimeError(
+            "SECRET_KEY is not set. Generate one with "
+            "`python -c \"import secrets; print(secrets.token_hex(32))\"` "
+            "and put it in .env (see DEPLOY.md)."
+        )
+
     os.makedirs(app.instance_path, exist_ok=True)
 
     # Extensions

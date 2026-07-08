@@ -3,34 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0f1d14">
     <title>{% block title %}Fodbal Černyševského{% endblock %}</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚽</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
 </head>
+{% set ep = request.endpoint or '' %}
 <body>
     <header class="topbar">
-        <a class="brand" href="{{ url_for('main.index') }}">⚽ Fodbal Černyševského</a>
+        <a class="brand" href="{{ url_for('main.index') }}"><span class="brand-ball">⚽</span> Fodbal <span class="brand-accent">Černyševského</span></a>
         <nav class="topnav">
             <span class="topnav-links">
-                <a class="navlink" href="{{ url_for('matches.calendar') }}">Zápasy</a>
-                <a class="navlink" href="{{ url_for('main.players') }}">Hráči</a>
-                <a class="navlink" href="{{ url_for('stats.global_stats') }}">Štatistiky</a>
+                <a class="navlink {{ 'active' if ep.startswith('matches.') }}" href="{{ url_for('matches.calendar') }}">Zápasy</a>
+                <a class="navlink {{ 'active' if ep == 'main.players' }}" href="{{ url_for('main.players') }}">Hráči</a>
+                <a class="navlink {{ 'active' if ep == 'stats.global_stats' }}" href="{{ url_for('stats.global_stats') }}">Štatistiky</a>
                 {% if current_user.is_authenticated %}
-                    <a class="navlink" href="{{ url_for('stats.my_stats') }}">Moje výsledky</a>
-                    <a class="navlink" href="{{ url_for('payments.my_payment') }}">Platba</a>
+                    <a class="navlink {{ 'active' if ep == 'stats.my_stats' }}" href="{{ url_for('stats.my_stats') }}">Moje výsledky</a>
+                    <a class="navlink {{ 'active' if ep.startswith('payments.') }}" href="{{ url_for('payments.my_payment') }}">Platba</a>
                 {% endif %}
                 {% if current_user.is_authenticated and current_user.is_admin %}
-                    <a class="navlink" href="{{ url_for('admin.dashboard') }}">Admin</a>
+                    <a class="navlink {{ 'active' if ep.startswith('admin.') }}" href="{{ url_for('admin.dashboard') }}">Admin</a>
                 {% endif %}
             </span>
             {% if current_user.is_authenticated %}
                 <span class="whoami">{{ current_user.nickname }}{% if current_user.is_admin %} <span class="badge">admin</span>{% endif %}</span>
                 <form action="{{ url_for('auth.logout') }}" method="POST" class="inline-form">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                    <button type="submit" class="btn btn-ghost">Odhlásiť sa</button>
+                    <button type="submit" class="btn btn-outline-light btn-sm">Odhlásiť</button>
                 </form>
             {% else %}
-                <a class="btn btn-ghost" href="{{ url_for('auth.login') }}">Prihlásiť sa</a>
-                <a class="btn btn-primary" href="{{ url_for('auth.register') }}">Registrácia</a>
+                <a class="btn btn-outline-light btn-sm" href="{{ url_for('auth.login') }}">Prihlásiť sa</a>
+                <a class="btn btn-primary btn-sm" href="{{ url_for('auth.register') }}">Registrácia</a>
             {% endif %}
         </nav>
     </header>
@@ -49,22 +55,22 @@
         {% block content %}{% endblock %}
     </main>
     <footer class="footer">
-        <p>&copy; 2025–2026 Fodbal Černyševského</p>
+        <p>⚽ Fodbal Černyševského · štvrtky 19:00</p>
     </footer>
 
     <!-- Mobile bottom navigation -->
     <nav class="bottomnav">
-        <a href="{{ url_for('matches.calendar') }}"><span class="bn-ico">⚽</span><span>Zápasy</span></a>
-        <a href="{{ url_for('stats.global_stats') }}"><span class="bn-ico">📊</span><span>Štatistiky</span></a>
+        <a class="{{ 'active' if ep.startswith('matches.') }}" href="{{ url_for('matches.calendar') }}"><span class="bn-ico">⚽</span><span>Zápasy</span></a>
+        <a class="{{ 'active' if ep == 'stats.global_stats' }}" href="{{ url_for('stats.global_stats') }}"><span class="bn-ico">📊</span><span>Štatistiky</span></a>
         {% if current_user.is_authenticated %}
-        <a href="{{ url_for('stats.my_stats') }}"><span class="bn-ico">📈</span><span>Moje</span></a>
-        <a href="{{ url_for('payments.my_payment') }}"><span class="bn-ico">💶</span><span>Platba</span></a>
+        <a class="{{ 'active' if ep == 'stats.my_stats' }}" href="{{ url_for('stats.my_stats') }}"><span class="bn-ico">📈</span><span>Moje</span></a>
+        <a class="{{ 'active' if ep.startswith('payments.') }}" href="{{ url_for('payments.my_payment') }}"><span class="bn-ico">💶</span><span>Platba</span></a>
         {% if current_user.is_admin %}
-        <a href="{{ url_for('admin.dashboard') }}"><span class="bn-ico">⚙️</span><span>Admin</span></a>
+        <a class="{{ 'active' if ep.startswith('admin.') }}" href="{{ url_for('admin.dashboard') }}"><span class="bn-ico">⚙️</span><span>Admin</span></a>
         {% endif %}
         {% else %}
-        <a href="{{ url_for('main.players') }}"><span class="bn-ico">👥</span><span>Hráči</span></a>
-        <a href="{{ url_for('auth.login') }}"><span class="bn-ico">🔑</span><span>Prihlásiť</span></a>
+        <a class="{{ 'active' if ep == 'main.players' }}" href="{{ url_for('main.players') }}"><span class="bn-ico">👥</span><span>Hráči</span></a>
+        <a class="{{ 'active' if ep.startswith('auth.') }}" href="{{ url_for('auth.login') }}"><span class="bn-ico">🔑</span><span>Prihlásiť</span></a>
         {% endif %}
     </nav>
 </body>

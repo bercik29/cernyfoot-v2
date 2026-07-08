@@ -39,13 +39,20 @@ def dashboard():
         upcoming = next((m for m in upcoming if not timing.is_over(m.date, now)), None)
 
     unclaimed = Player.query.filter_by(is_guest=False, password_hash=None).count()
+    players = Player.query.filter_by(is_guest=False).order_by(Player.nickname).all()
+    paid = unpaid = 0
+    if season:
+        paid = Payment.query.filter_by(season_id=season.id, status=PAID).count()
+        unpaid = len(players) - paid
     return render_template(
         "admin/dashboard.html",
         season=season,
         off_season=off_season,
         upcoming=upcoming,
         unclaimed=unclaimed,
-        players=Player.query.filter_by(is_guest=False).order_by(Player.nickname).all(),
+        players=players,
+        paid=paid,
+        unpaid=unpaid,
     )
 
 
@@ -134,7 +141,45 @@ def holidays():
         return redirect(url_for("admin.holidays"))
 
     rows = Holiday.query.order_by(Holiday.date_from.desc()).all()
-    return render_template("admin/holidays.html", form=form, holidays=rows)
+    from datetime import date as _date
+
+    # Default to the school year that starts this autumn (or started last autumn).
+    today = _date.today()
+    default_year = today.year if today.month >= 6 else today.year - 1
+    return render_template(
+        "admin/holidays.html", form=form, holidays=rows, default_year=default_year
+    )
+
+
+@bp.route("/holidays/generate", methods=["POST"])
+@admin_required
+def generate_holidays():
+    """Auto-seed public holidays + school breaks for a school year."""
+    from ..services import holidays as holidays_svc
+
+    try:
+        start_year = int(request.form.get("school_year", ""))
+        if not 2020 <= start_year <= 2100:
+            raise ValueError
+    except ValueError:
+        flash("Zadaj platný rok začiatku školského roka (napr. 2026).", "error")
+        return redirect(url_for("admin.holidays"))
+
+    report = holidays_svc.seed_school_year(start_year)
+    log_action("holiday.generate", entity=f"school_year:{start_year}", payload=report)
+    db.session.commit()
+
+    msg = f"Vygenerovaných {report['created']} voľných dní pre {start_year}/{start_year + 1}"
+    if report["skipped"]:
+        msg += f" ({report['skipped']} už existovalo)"
+    flash(msg + ".", "success")
+    if report["spring_estimate"]:
+        flash(
+            f"⚠️ Jarné prázdniny ({report['spring_estimate']}) sú len ODHAD — každý rok "
+            f"ich určuje ministerstvo podľa krajov. Over rozpis a prípadne uprav.",
+            "warning",
+        )
+    return redirect(url_for("admin.holidays"))
 
 
 @bp.route("/holidays/<int:holiday_id>/delete", methods=["POST"])
@@ -169,6 +214,35 @@ def matches():
         now=timing.now_local(),
         is_over=timing.is_over,
     )
+
+
+@bp.route("/matches/add", methods=["POST"])
+@admin_required
+def add_match():
+    """Manually add a match on any date — e.g. the group plays a different day
+    that week, or a generated date was cancelled and a replacement is agreed."""
+    from datetime import datetime as _dt
+
+    raw = (request.form.get("date") or "").strip()
+    try:
+        match_date = _dt.strptime(raw, "%Y-%m-%d").date()
+    except ValueError:
+        flash("Zadaj platný dátum.", "error")
+        return redirect(safe_referrer() or url_for("admin.matches"))
+
+    season = Season.query.filter(
+        Season.starts_on <= match_date, Season.ends_on >= match_date
+    ).first()
+    if season is None:
+        flash("Dátum nepatrí do žiadnej sezóny — najprv vytvor sezónu.", "error")
+    elif Match.query.filter_by(date=match_date).first() is not None:
+        flash("Na tento dátum už zápas existuje.", "error")
+    else:
+        db.session.add(Match(season_id=season.id, date=match_date, status=MatchStatus.scheduled))
+        log_action("match.add", entity=f"match:{match_date.isoformat()}")
+        db.session.commit()
+        flash(f"Zápas {match_date.strftime('%d.%m.%Y')} pridaný.", "success")
+    return redirect(url_for("admin.matches", season=season.label if season else None))
 
 
 @bp.route("/matches/<int:match_id>/cancel", methods=["POST"])

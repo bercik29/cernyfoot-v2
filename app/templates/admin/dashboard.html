@@ -2,40 +2,50 @@
 {% block title %}Admin — Fodbal Černyševského{% endblock %}
 
 {% block content %}
-<section class="page">
+<section class="page page-wide">
     <h1>Admin</h1>
 
-    <div class="admin-grid">
+    <div class="stat-cards">
+        <div class="stat-card">
+            <span class="stat-num">{% if upcoming %}{{ upcoming.date.strftime('%d.%m.') }}{% else %}—{% endif %}</span>
+            <span class="stat-label">najbližší zápas{% if upcoming %} · {{ upcoming.signups|length }} prihlásených{% endif %}</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-num">{{ paid }}<span class="stat-sub">/{{ players|length }}</span></span>
+            <span class="stat-label">vyplatených ({{ season.label if season else '—' }})</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-num">{{ unclaimed }}</span>
+            <span class="stat-label">hráčov bez hesla</span>
+        </div>
+    </div>
+
+    <div class="admin-grid two-col">
         <div class="card">
-            <h2>Najbližší zápas</h2>
+            <h2>Správa</h2>
+            <ul class="admin-links">
+                <li><a href="{{ url_for('admin.matches') }}">🗓️ Zápasy <span class="muted">· zrušenie, obnovenie, pridanie</span></a></li>
+                <li><a href="{{ url_for('admin.payments') }}">💶 Platby <span class="muted">· {{ unpaid }} nevyplatených</span></a></li>
+                <li><a href="{{ url_for('admin.seasons') }}">🏁 Sezóny <span class="muted">· vytvorenie &amp; generovanie zápasov</span></a></li>
+                <li><a href="{{ url_for('admin.holidays') }}">🏖️ Sviatky &amp; prázdniny <span class="muted">· automatické generovanie</span></a></li>
+            </ul>
             {% if upcoming %}
-            <p class="match-date">{{ upcoming.date.strftime('%d.%m.%Y') }}</p>
-            <p>Prihlásených: <strong>{{ upcoming.signups|length }}</strong></p>
-            <p><a href="{{ url_for('matches.detail', match_id=upcoming.id) }}">Detail →</a></p>
-            {% else %}
-            <p class="notice">Žiadny naplánovaný zápas{% if off_season %} (medzisezónna prestávka){% endif %}.</p>
+            <p><a class="btn btn-primary" href="{{ url_for('matches.detail', match_id=upcoming.id) }}">Spravovať najbližší zápas →</a></p>
+            {% elif off_season %}
+            <p class="notice">Medzisezónna prestávka — vytvor novú sezónu a vygeneruj zápasy.</p>
             {% endif %}
         </div>
 
         <div class="card">
-            <h2>Správa</h2>
-            <ul class="admin-links">
-                <li><a href="{{ url_for('admin.seasons') }}">Sezóny &amp; generovanie zápasov</a></li>
-                <li><a href="{{ url_for('admin.holidays') }}">Sviatky &amp; prázdniny</a></li>
-                <li><a href="{{ url_for('admin.matches') }}">Zápasy (zrušenie / obnovenie)</a></li>
-            </ul>
-        </div>
-
-        <div class="card">
             <h2>Hráči</h2>
-            <p>Bez nastaveného hesla: <strong>{{ unclaimed }}</strong></p>
+            <div class="table-wrap">
             <table class="table">
-                <thead><tr><th>Prezývka</th><th>Stav</th><th></th></tr></thead>
+                <thead><tr><th>Prezývka</th><th>Heslo</th><th></th></tr></thead>
                 <tbody>
                     {% for p in players %}
                     <tr>
                         <td>{{ p.nickname }}{% if p.is_admin %} <span class="badge">admin</span>{% endif %}</td>
-                        <td>{% if p.is_claimed %}✅ heslo nastavené{% else %}⏳ čaká na prvé prihlásenie{% endif %}</td>
+                        <td>{% if p.is_claimed %}<span class="tag tag-scheduled">nastavené</span>{% else %}<span class="tag">čaká</span>{% endif %}</td>
                         <td>
                             {% if p.is_claimed %}
                             <form method="POST" action="{{ url_for('auth.reset_password', player_id=p.id) }}" class="inline-form"
@@ -49,6 +59,7 @@
                     {% endfor %}
                 </tbody>
             </table>
+            </div>
         </div>
     </div>
 </section>

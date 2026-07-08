@@ -8,7 +8,22 @@
     <p class="notice">V týchto dňoch generátor nevytvorí zápas.</p>
 
     <div class="card">
-        <h2>Pridať voľno</h2>
+        <h2>⚡ Automatické generovanie</h2>
+        <p class="muted">Štátne sviatky (vrátane Veľkej noci) sú vypočítané presne; školské prázdniny
+        podľa zaužívaných pravidiel — jarné prázdniny každý rok určuje ministerstvo, tak ich po
+        vygenerovaní skontroluj.</p>
+        <form method="POST" action="{{ url_for('admin.generate_holidays') }}" class="admin-row">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <label for="school_year">Školský rok</label>
+            <input type="number" id="school_year" name="school_year" class="input-inline input-year"
+                   min="2020" max="2100" value="{{ default_year }}" required>
+            <span class="muted">/ {{ default_year + 1 }}</span>
+            <button type="submit" class="btn btn-primary btn-sm">Vygenerovať</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h2>Pridať voľno ručne</h2>
         <form method="POST" class="stack-form">
             {{ form.hidden_tag() }}
             {% for field in [form.date_from, form.date_to, form.kind, form.description] %}

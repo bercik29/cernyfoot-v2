@@ -7,12 +7,12 @@
 :root {
     --pitch: #091510;
     --pitch-2: #0C1D13;
-    --panel: #0F2417;
+    --panel: #12291B;
     --panel-2: #153420;
-    --line: rgba(234, 242, 236, .08);
-    --line-2: rgba(234, 242, 236, .14);
+    --line: rgba(234, 242, 236, .12);
+    --line-2: rgba(234, 242, 236, .20);
     --chalk: #EAF2EC;
-    --sage: #8AA394;
+    --sage: #9DB3A6;
     --sage-dim: #5E7466;
     --green: #2FBF71;
     --green-ink: #062516;
@@ -54,8 +54,8 @@ body::before {
     content: "";
     position: fixed; inset: 0; z-index: 0; pointer-events: none;
     background:
-        radial-gradient(120% 80% at 8% -10%, rgba(47, 191, 113, .16), transparent 55%),
-        radial-gradient(120% 80% at 92% -10%, rgba(255, 138, 61, .15), transparent 55%),
+        radial-gradient(120% 80% at 8% -10%, rgba(47, 191, 113, .10), transparent 55%),
+        radial-gradient(120% 80% at 92% -10%, rgba(255, 138, 61, .09), transparent 55%),
         radial-gradient(140% 120% at 50% 120%, rgba(9, 21, 16, .6), transparent 60%);
 }
 
@@ -89,10 +89,15 @@ h1, h2, h3, h4 { margin: 0; }
 /* ---------------------------------------------------------------- header */
 .topbar {
     position: sticky; top: 0; z-index: 40;
-    background: rgba(9, 21, 16, .72);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    background: #0B1B12; /* solid fallback — never black-on-black without blur support */
     border-bottom: 1px solid var(--line);
+}
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .topbar {
+        background: rgba(9, 21, 16, .72);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+    }
 }
 .bar {
     display: flex; align-items: center; gap: 20px; height: 64px;
@@ -199,9 +204,10 @@ h1, h2, h3, h4 { margin: 0; }
 }
 
 .notice {
-    background: var(--panel); border: 1px solid var(--line);
-    border-radius: 12px; padding: .65rem 1rem; color: var(--sage); font-size: 14px;
+    background: var(--panel); border: 1px solid var(--line-2);
+    border-radius: 12px; padding: .75rem 1.1rem; color: var(--chalk); font-size: 14px;
 }
+.notice b, .sub b { color: var(--chalk); }
 
 /* ---------------------------------------------------------------- flashes */
 .flashes { width: 100%; max-width: 1080px; margin: 16px auto 0; padding: 0 20px; position: relative; z-index: 1; }
@@ -684,10 +690,12 @@ tr.top1 td { background: rgba(47, 191, 113, .05); }
 
     .bottomnav {
         display: flex; position: fixed; bottom: 0; left: 0; right: 0; z-index: 40;
-        background: rgba(9, 21, 16, .85); backdrop-filter: blur(14px);
-        -webkit-backdrop-filter: blur(14px);
+        background: #0B1B12;
         border-top: 1px solid var(--line);
         padding: 6px 0 calc(6px + env(safe-area-inset-bottom));
+    }
+    @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+        .bottomnav { background: rgba(9, 21, 16, .85); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
     }
     .bottomnav a {
         flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px;
